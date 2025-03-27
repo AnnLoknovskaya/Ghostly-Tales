@@ -6,6 +6,8 @@ from pytmx.util_pygame import load_pygame
 # Импорт функции для объединения путей (удобно для загрузки файлов)
 from os.path import join
 
+from support import *
+
 # Класс Game — управляет всей игрой
 class Game:
 	def __init__(self):
@@ -13,10 +15,18 @@ class Game:
 		self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) # Создание окна игры
 		pygame.display.set_caption('Game') # Установка заголовка окна
 		self.clock = pygame.time.Clock() # Создание игрового таймера для контроля FPS
+		self.import_assets()
 
 		# Загрузка карты уровня из TMX файла
 		self.tmx_maps = {0: load_pygame(join('..', 'data', 'levels', 'omni.tmx'))} # Загружаем карту и сохраняем в словарь
-		self.current_stage = Level(self.tmx_maps[0]) # Создаём объект Level с загруженной картой
+		self.current_stage = Level(self.tmx_maps[0], self.level_frames) # Создаём объект Level с загруженной картой
+
+	def import_assets(self):
+		self.level_frames = {
+			'flag': import_folder('..', 'graphics', 'level', 'flag'),
+			'saw': import_folder('..', 'graphics', 'enemies', 'saw', 'animation'),
+			'floor_spike': import_folder('..', 'graphics', 'enemies', 'floor_spikes')
+		}
 
 	# Главный игровой цикл
 	def run(self):

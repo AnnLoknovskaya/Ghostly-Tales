@@ -4,12 +4,26 @@ from settings import *
 
 # Класс простого статического спрайта
 class Sprite(pygame.sprite.Sprite):
-	def __init__(self, pos, surf=pygame.Surface((TILE_SIZE,TILE_SIZE)), groups=None):
+	def __init__(self, pos, surf=pygame.Surface((TILE_SIZE,TILE_SIZE)), groups=None, z = Z_LAYERS['main']):
 		super().__init__(groups)
 		self.image = surf # Изображение спрайта
-		self.image.fill('white') # Заливка белым цветом
 		self.rect = self.image.get_rect(topleft = pos) # Прямоугольник, определяющий положение спрайта
 		self.old_rect = self.rect.copy() # Сохранение предыдущего положения (для обработки коллизий)
+		self.z = z
+
+class AnimatedSprite(Sprite):
+	def __init__(self, pos, frames, groups, z = Z_LAYERS['main'], animation_speed = ANIMATION_SPEED):
+		self.frames, self.frame_index = frames, 0
+		super().__init__(pos, self.frames[self.frame_index], groups, z)
+		self.animation_speed = animation_speed
+
+	def animate(self, dt):
+		self.frame_index += self.animation_speed * dt
+		self.image = self.frames[int(self.frame_index % len(self.frames))]
+
+	def update(self, dt):
+		self.animate(dt)
+
 
 # Класс движущегося спрайта (например, платформы)
 class MovingSprite(Sprite):
@@ -17,6 +31,7 @@ class MovingSprite(Sprite):
 		# Создание поверхности спрайта
 		surf = pygame.Surface((200, 50))
 		super().__init__(start_pos, surf, groups)
+		self.image.fill('white')
 
 		# Установка начального положения
 		if move_dir == 'x': # Если движение по горизонтали
