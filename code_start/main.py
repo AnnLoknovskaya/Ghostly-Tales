@@ -25,8 +25,16 @@ class Game:
 		self.level_frames = {
 			'flag': import_folder('..', 'graphics', 'level', 'flag'),
 			'saw': import_folder('..', 'graphics', 'enemies', 'saw', 'animation'),
-			'floor_spike': import_folder('..', 'graphics', 'enemies', 'floor_spikes')
+			'floor_spike': import_folder('..', 'graphics', 'enemies', 'floor_spikes'),
+			'palms': import_sub_folders('..', 'graphics', 'level', 'palms'),
+			'candle': import_folder('..', 'graphics', 'level', 'candle'),
+			'window': import_folder('..', 'graphics', 'level', 'window'),
+			'big_chain': import_folder('..', 'graphics', 'level', 'big_chain'),
+			'small_chain': import_folder('..', 'graphics', 'level', 'small_chain'),
+			'candle_light': import_folder('..', 'graphics', 'level', 'candle_light'),
+			'player': import_sub_folders('..', 'graphics', 'player')
 		}
+		print(self.level_frames['player'])
 
 	# Главный игровой цикл
 	def run(self):

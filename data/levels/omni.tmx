@@ -186,7 +186,7 @@
   <object id="79" name="skull" gid="53" x="832" y="128" width="64" height="64"/>
   <object id="80" name="skull" gid="53" x="704" y="64" width="64" height="64"/>
  </objectgroup>
- <objectgroup id="6" name="Enemies">
+ <objectgroup id="6" name="Enemies" visible="0">
   <object id="36" name="shell" gid="224" x="192" y="384" width="76" height="46">
    <properties>
     <property name="reverse" type="bool" value="true"/>
@@ -203,7 +203,7 @@
  <objectgroup id="2" name="Water" visible="0">
   <object id="2" name="water" x="0" y="640" width="2560" height="320"/>
  </objectgroup>
- <objectgroup id="8" name="Data" visible="0">
+ <objectgroup id="8" name="Data">
   <object id="28" name="Data" x="0" y="0" width="64" height="64">
    <properties>
     <property name="bg" value=""/>

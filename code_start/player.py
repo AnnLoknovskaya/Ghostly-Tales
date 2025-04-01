@@ -8,20 +8,20 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites, semi_collision_sprites):
         super().__init__(groups)
         # Создание изображения игрока
-        self.image = pygame.image.load(join('..', 'graphics', 'player', 'idle', '0.png'))
+        self.image = pygame.image.load(join('..', 'graphics', 'player', 'idle', '5.png'))
         self.z = Z_LAYERS['main']
 
         # Определение прямоугольников для коллизий
         self.rect = self.image.get_rect(topleft=pos) # Прямоугольник на позиции pos
-        self.hitbox_rect = self.rect.inflate(-76, -36)
+        self.hitbox_rect = self.rect.inflate(-60, -20)
         self.old_rect = self.hitbox_rect.copy() # Хранит предыдущее положение для коллизий
 
         # Движения
         self.direction = vector() # Вектор направления движения
-        self.speed = 280 # Скорость передвижения
+        self.speed = 520 # Скорость передвижения
         self.gravity = 3000 #Гравитация
         self.jump = False # Флаг для прыжка
-        self.jump_height = 1400 # Сила прыжка
+        self.jump_height = 1600 # Сила прыжка
 
         # Коллизии
         self.collision_sprites = collision_sprites # Спрайты с полной коллизией
@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         # Таймеры для механик прыжков и взаимодействий
         self.timers = {
             'wall jump': Timer(400),
-            'wall slide block': Timer(250),
+            'wall slide block': Timer(500),
             'platform skip': Timer(50)
         }
 

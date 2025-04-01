@@ -31,7 +31,7 @@ class MovingSprite(Sprite):
 		# Создание поверхности спрайта
 		surf = pygame.Surface((200, 50))
 		super().__init__(start_pos, surf, groups)
-		self.image.fill('white')
+		self.image.fill('gray')
 
 		# Установка начального положения
 		if move_dir == 'x': # Если движение по горизонтали
@@ -42,7 +42,7 @@ class MovingSprite(Sprite):
 		# Параметры движения
 		self.start_pos = start_pos # Начальная точка движения
 		self.end_pos = end_pos # Конечная точка движения
-		self.speed = speed * 4.8 # Скорость движения (умножаем для масштабирования)
+		self.speed = speed * 9 # Скорость движения (умножаем для масштабирования)
 
 		# Логика движения
 		self.moving = True # Флаг, указывающий, движется ли объект
