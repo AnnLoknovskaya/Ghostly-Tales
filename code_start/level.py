@@ -28,7 +28,7 @@ class Level:
 
 				match layer:
 					case 'BG': z = Z_LAYERS['bg tiles']
-					case 'FG': z = Z_LAYERS['fg']
+					case 'FG': z = Z_LAYERS['bg tiles']
 					case _: z = Z_LAYERS['main']
 				# Создаем статичный спрайт и добавляем его в соответствующие группы
 				Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, groups, z)
@@ -37,7 +37,12 @@ class Level:
 		for obj in tmx_map.get_layer_by_name('Objects'):
 			# Если объект - игрок, создаем экземпляр класса Player
 			if obj.name == 'player':
-				self.player = Player((obj.x, obj.y), self.all_sprites, self.collision_sprites, self.semi_collision_sprites)
+				self.player = Player(
+					pos = (obj.x, obj.y),
+					groups = self.all_sprites,
+					collision_sprites = self.collision_sprites,
+					semi_collision_sprites = self.semi_collision_sprites,
+					frames = level_frames['player'])
 			else:
 				# Объекты без анимации
 				if obj.name in ('barrel', 'crate'):
