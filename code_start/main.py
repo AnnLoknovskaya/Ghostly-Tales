@@ -32,7 +32,9 @@ class Game:
 			'big_chain': import_folder('..', 'graphics', 'level', 'big_chain'),
 			'small_chain': import_folder('..', 'graphics', 'level', 'small_chain'),
 			'candle_light': import_folder('..', 'graphics', 'level', 'candle_light'),
-			'player': import_sub_folders('..', 'graphics', 'player')
+			'player': import_sub_folders('..', 'graphics', 'player'),
+			'tooth': import_folder('..', 'graphics', 'enemies', 'tooth', 'run'),
+			'shell': import_sub_folders('..', 'graphics', 'enemies', 'shell'),
 		}
 		print(self.level_frames['player'])
 

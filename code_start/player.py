@@ -11,12 +11,12 @@ class Player(pygame.sprite.Sprite):
 
         # Создание изображения игрока
         self.frames, self.frame_index = frames, 0
-        self.state, self.facing_right = 'idle', True
+        self.state, self.facing_right = 'idle_girl', True
         self.image = self.frames[self.state][self.frame_index]
 
         # Определение прямоугольников для коллизий
         self.rect = self.image.get_rect(topleft=pos) # Прямоугольник на позиции pos
-        self.hitbox_rect = self.rect.inflate(-90, -40)
+        self.hitbox_rect = self.rect.inflate(-30, 2)
         # self.hitbox_rect = self.rect.inflate(-60, -20)
         self.old_rect = self.hitbox_rect.copy() # Хранит предыдущее положение для коллизий
 
@@ -80,7 +80,6 @@ class Player(pygame.sprite.Sprite):
             self.attacking = True  # Начинаем атаку
             self.frame_index = 0  # Сброс индекса кадров для анимации атаки
             self.timers['attack block'].activate()
-
 
 
     # Метод для обработки движений игрока
@@ -216,8 +215,8 @@ class Player(pygame.sprite.Sprite):
     def animate(self, dt):
         self.frame_index += ANIMATION_SPEED * dt
         # Проверяем, завершена ли анимация атаки
-        if self.state == 'attack' and self.frame_index >= len(self.frames[self.state]):
-            self.state = 'idle'  # Возвращаем состояние в idle после завершения атаки
+        if self.state == 'attack_girl' and self.frame_index >= len(self.frames[self.state]):
+            self.state = 'idle_girl'  # Возвращаем состояние в idle после завершения атаки
             self.attacking = False  # Сбрасываем флаг атаки
 
         # Обновление изображения на основе состояния
@@ -230,17 +229,17 @@ class Player(pygame.sprite.Sprite):
     def get_state(self):
         if self.on_surface['floor']:
             if self.attacking:
-                self.state = 'attack'
+                self.state = 'attack_girl'
             else:
-                self.state = 'idle' if self.direction.x == 0 else 'run'
+                self.state = 'idle_girl' if self.direction.x == 0 else 'run_girl'
         else:
             if self.attacking:
-                self.state = 'air_attack'
+                self.state = 'air_attack_girl'
             else:
                 if any((self.on_surface['left'], self.on_surface['right'])):
                     self.state == 'wall'
                 else:
-                    self.state = 'jump' if self.direction.y < 0 else 'fall'
+                    self.state = 'jump_girl' if self.direction.y < 0 else 'fall_girl'
 
     # Основной метод обновления
     def update(self, dt):
