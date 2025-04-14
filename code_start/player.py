@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         # Движения
         self.direction = vector() # Вектор направления движения
         self.speed = 500 # Скорость передвижения
-        self.gravity = 2500 #Гравитация
+        self.gravity = 4900 #Гравитация
         self.jump = False # Флаг для прыжка
         self.jump_height = 1500 # Сила прыжка
         self.attacking = False

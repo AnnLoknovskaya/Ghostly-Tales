@@ -4,7 +4,8 @@ from settings import *
 from sprites import Sprite, MovingSprite, AnimatedSprite
 from player import Player
 from groups import AllSprites
-from enemies import Tooth, Shell
+from enemies import Tooth, Shell, Pearl
+
 
 # Создание уровня
 class Level:
@@ -18,9 +19,13 @@ class Level:
 		self.semi_collision_sprites = pygame.sprite.Group() # Спрайты с частичными коллизиями
 		self.damage_sprites = pygame.sprite.Group()
 		self.tooth_sprites = pygame.sprite.Group()
+		self.pearl_sprites = pygame.sprite.Group()
 
 		# Инициализация уровня с использованием карты tmx
 		self.setup(tmx_map, level_frames)
+
+		# frames
+		self.pearl_surf = level_frames['pearl']
 
 	# Метод для создания тайлов (плиток) на основе слоя Terrain
 	def setup(self, tmx_map, level_frames):
@@ -83,7 +88,28 @@ class Level:
 			if obj.name == 'shell':
 				# Пример добавления смещения к позициям (например, смещение на 10 пикселей вправо и вниз)
 				shell_pos = (obj.x + 10, obj.y + 10)  # Сдвиг на 10 пикселей
-				Shell(shell_pos, level_frames['shell'], (self.all_sprites, self.collision_sprites))
+				Shell(
+					pos = shell_pos,
+					frames = level_frames['shell'],
+					groups = (self.all_sprites, self.collision_sprites),
+					reverse = obj.properties['reverse'],
+					player = self.player,
+					create_pearl = self.create_pearl)
+
+
+	def create_pearl(self, pos, direction):
+		Pearl(pos, (self.all_sprites, self.damage_sprites, self.pearl_sprites), self.pearl_surf, direction, 150)
+
+	def pearl_collision(self):
+		for sprite in self.collision_sprites:
+			pygame.sprite.spritecollide(sprite, self.pearl_sprites, True)
+
+	def hit_collision(self):
+		for sprite in self.damage_sprites:
+			if sprite.rect.colliderect(self.player.hitbox_rect):
+				print('player damage')
+				if hasattr(sprite, 'pearl'):
+					sprite.kill()
 
 
 	# Метод обновления и отрисовки уровня в каждом кадре
@@ -93,6 +119,8 @@ class Level:
 
 		# Обновляем все спрайты с учетом времени dt (используется для плавности движения)
 		self.all_sprites.update(dt)
+		self.pearl_collision()
+		self.hit_collision()
 
 		# Отрисовываем все спрайты на экране
 		self.all_sprites.draw(self.player.hitbox_rect.center)

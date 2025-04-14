@@ -35,8 +35,8 @@ class Game:
 			'player': import_sub_folders('..', 'graphics', 'player'),
 			'tooth': import_folder('..', 'graphics', 'enemies', 'tooth', 'run'),
 			'shell': import_sub_folders('..', 'graphics', 'enemies', 'shell'),
+			'pearl': import_image('..', 'graphics', 'enemies', 'bullets', 'pearl')
 		}
-		print(self.level_frames['player'])
 
 	# Главный игровой цикл
 	def run(self):
