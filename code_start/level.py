@@ -1,7 +1,9 @@
 import pygame.sprite
+from sqlalchemy.testing import rowset
+from sqlalchemy.util import column_set
 
 from settings import *
-from sprites import Sprite, MovingSprite, AnimatedSprite
+from sprites import Sprite, MovingSprite, AnimatedSprite, Item, ParticleEffectSprite
 from player import Player
 from groups import AllSprites
 from enemies import Tooth, Shell, Pearl
@@ -9,9 +11,10 @@ from enemies import Tooth, Shell, Pearl
 
 # Создание уровня
 class Level:
-	def __init__(self, tmx_map, level_frames):
+	def __init__(self, tmx_map, level_frames, data):
 		# Получаем поверхность экрана для отображения
 		self.display_surface = pygame.display.get_surface()
+		self.data = data
 
 		# Группы спрайтов для управления рендерингом и взаимодействием объектов
 		self.all_sprites = AllSprites()  # Все спрайты
@@ -20,12 +23,14 @@ class Level:
 		self.damage_sprites = pygame.sprite.Group()
 		self.tooth_sprites = pygame.sprite.Group()
 		self.pearl_sprites = pygame.sprite.Group()
+		self.item_sprites = pygame.sprite.Group()
 
 		# Инициализация уровня с использованием карты tmx
 		self.setup(tmx_map, level_frames)
 
 		# frames
 		self.pearl_surf = level_frames['pearl']
+		self.particle_frames = level_frames['particle']
 
 	# Метод для создания тайлов (плиток) на основе слоя Terrain
 	def setup(self, tmx_map, level_frames):
@@ -52,7 +57,8 @@ class Level:
 					groups = self.all_sprites,
 					collision_sprites = self.collision_sprites,
 					semi_collision_sprites = self.semi_collision_sprites,
-					frames = level_frames['player'])
+					frames = level_frames['player'],
+					data = self.data)
 			else:
 				# Объекты без анимации
 				if obj.name in ('barrel', 'crate'):
@@ -96,21 +102,55 @@ class Level:
 					player = self.player,
 					create_pearl = self.create_pearl)
 
+		# Предметы
+		for obj in tmx_map.get_layer_by_name('Items'):
+			Item(obj.name, (obj.x + TILE_SIZE / 2, obj.y + TILE_SIZE / 2), level_frames['items'][obj.name], (self.all_sprites, self.item_sprites), self.data)
+
+		# # Вода
+		# for obj in tmx_map.get_layer_by_name('Water'):
+		# 	rows = int(obj.height / TILE_SIZE)
+		# 	cols = int(obj.width / TILE_SIZE)
+		# 	for row in range(rows):
+		# 		for col in range(cols):
+		# 			x = obj.x + col * TILE_SIZE
+		# 			y = obj.y + row * TILE_SIZE
+		# 			if row == 0:
+		# 				AnimatedSprite((x, y), level_frames['water_top'], self.all_sprites, Z_LAYERS['water'])
+		# 			else:
+		# 				Sprite((x, y), level_frames['water_body'], self.all_sprites, Z_LAYERS['water'])
+
+
 
 	def create_pearl(self, pos, direction):
 		Pearl(pos, (self.all_sprites, self.damage_sprites, self.pearl_sprites), self.pearl_surf, direction, 150)
 
 	def pearl_collision(self):
 		for sprite in self.collision_sprites:
-			pygame.sprite.spritecollide(sprite, self.pearl_sprites, True)
+			sprite = pygame.sprite.spritecollide(sprite, self.pearl_sprites, True)
+			if sprite:
+				ParticleEffectSprite((sprite[0].rect.center), self.particle_frames, self.all_sprites)
 
 	def hit_collision(self):
 		for sprite in self.damage_sprites:
 			if sprite.rect.colliderect(self.player.hitbox_rect):
-				print('player damage')
+				self.player.get_damage()
 				if hasattr(sprite, 'pearl'):
 					sprite.kill()
+					ParticleEffectSprite((sprite.rect.center), self.particle_frames, self.all_sprites)
 
+	def item_collision(self):
+		if self.item_sprites:
+			item_sprites = pygame.sprite.spritecollide(self.player, self.item_sprites, True)
+			if item_sprites:
+				item_sprites[0].activate()
+				ParticleEffectSprite((item_sprites[0].rect.center), self.particle_frames, self.all_sprites)
+
+	def attack_collision(self):
+		for target in self.pearl_sprites.sprites() + self.tooth_sprites.sprites():
+			facing_target = self.player.rect.centerx < target.rect.centerx and self.player.facing_right or \
+				self.player.rect.centerx > target.rect.centerx and self.player.facing_right
+			if target.rect.colliderect(self.player.rect) and self.player.attacking and facing_target:
+				target.reverse()
 
 	# Метод обновления и отрисовки уровня в каждом кадре
 	def run(self, dt):
@@ -121,6 +161,8 @@ class Level:
 		self.all_sprites.update(dt)
 		self.pearl_collision()
 		self.hit_collision()
+		self.item_collision()
+		self.attack_collision()
 
 		# Отрисовываем все спрайты на экране
 		self.all_sprites.draw(self.player.hitbox_rect.center)

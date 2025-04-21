@@ -2,12 +2,14 @@ import pygame
 from timer import Timer
 from os.path import join
 from settings import *
+from math import sin
 
 # Класс игрока
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites, semi_collision_sprites, frames):
+    def __init__(self, pos, groups, collision_sprites, semi_collision_sprites, frames, data):
         super().__init__(groups)
         self.z = Z_LAYERS['main']
+        self.data = data
 
         # Создание изображения игрока
         self.frames, self.frame_index = frames, 0
@@ -25,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = 500 # Скорость передвижения
         self.gravity = 3000 #Гравитация
         self.jump = False # Флаг для прыжка
-        self.jump_height = 1700 # Сила прыжка
+        self.jump_height = 1800 # Сила прыжка
         self.attacking = False
 
         # Коллизии
@@ -39,7 +41,8 @@ class Player(pygame.sprite.Sprite):
             'wall jump': Timer(400),
             'wall slide block': Timer(500),
             'platform skip': Timer(50),
-            'attack block': Timer(500)
+            'attack block': Timer(500),
+            'hit': Timer(400)
         }
 
     # Метод для обработки ввода от игрока
@@ -241,6 +244,18 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.state = 'jump_girl' if self.direction.y < 0 else 'fall_girl'
 
+    def get_damage(self):
+        if not self.timers['hit'].active:
+            self.data.health -= 1
+            self.timers['hit'].activate()
+
+    def flicker(self):
+        if self.timers['hit'].active and sin(pygame.time.get_ticks() * 100) >= 0:
+            white_mask = pygame.mask.from_surface(self.image)
+            white_surf = white_mask.to_surface()
+            white_surf.set_colorkey('black')
+            self.image = white_surf
+
     # Основной метод обновления
     def update(self, dt):
         self.old_rect = self.hitbox_rect.copy() # Сохраняем текущую позицию для коллизий
@@ -254,3 +269,4 @@ class Player(pygame.sprite.Sprite):
 
         self.get_state()
         self.animate(dt)
+        self.flicker()

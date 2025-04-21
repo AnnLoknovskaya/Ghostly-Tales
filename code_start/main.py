@@ -7,6 +7,9 @@ from pytmx.util_pygame import load_pygame
 from os.path import join
 
 from support import *
+from data import Data
+from debug import debug
+from ui import UI
 
 # Класс Game — управляет всей игрой
 class Game:
@@ -17,9 +20,11 @@ class Game:
 		self.clock = pygame.time.Clock() # Создание игрового таймера для контроля FPS
 		self.import_assets()
 
+		self.ui = UI(self.font, self.ui_frames)
+		self.data = Data(self.ui)
 		# Загрузка карты уровня из TMX файла
 		self.tmx_maps = {0: load_pygame(join('..', 'data', 'levels', 'omni.tmx'))} # Загружаем карту и сохраняем в словарь
-		self.current_stage = Level(self.tmx_maps[0], self.level_frames) # Создаём объект Level с загруженной картой
+		self.current_stage = Level(self.tmx_maps[0], self.level_frames, self.data) # Создаём объект Level с загруженной картой
 
 	def import_assets(self):
 		self.level_frames = {
@@ -35,7 +40,17 @@ class Game:
 			'player': import_sub_folders('..', 'graphics', 'player'),
 			'tooth': import_folder('..', 'graphics', 'enemies', 'tooth', 'run'),
 			'shell': import_sub_folders('..', 'graphics', 'enemies', 'shell'),
-			'pearl': import_image('..', 'graphics', 'enemies', 'bullets', 'pearl')
+			'pearl': import_image('..', 'graphics', 'enemies', 'bullets', 'pearl'),
+			'items': import_sub_folders('..', 'graphics', 'items'),
+			'particle': import_folder('..', 'graphics', 'effects', 'particle'),
+			'water_top': import_folder('..', 'graphics', 'level', 'water', 'top'),
+			'water_body': import_image('..', 'graphics', 'level', 'water', 'body')
+		}
+
+		self.font = pygame.font.Font(join('..', 'graphics', 'ui', 'runescape_uf.ttf'), 40)
+		self.ui_frames = {
+			'heart': import_folder('..', 'graphics', 'ui', 'heart'),
+			'coin': import_image('..', 'graphics', 'ui', 'coin')
 		}
 
 	# Главный игровой цикл
@@ -49,6 +64,7 @@ class Game:
 
 			# Запуск обновления и отрисовки текущего уровня
 			self.current_stage.run(dt)
+			self.ui.update(dt)
 			# Обновление экрана (отрисовка нового кадра)
 			pygame.display.update()
 

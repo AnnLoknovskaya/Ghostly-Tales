@@ -176,7 +176,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="7" name="Items" visible="0">
+ <objectgroup id="7" name="Items">
   <object id="22" name="diamond" gid="49" x="512" y="384" width="64" height="64"/>
   <object id="23" name="gold" gid="50" x="1088" y="448" width="64" height="64"/>
   <object id="24" name="potion" gid="51" x="512" y="320" width="64" height="64"/>
