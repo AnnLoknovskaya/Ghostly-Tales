@@ -3,7 +3,7 @@ from sqlalchemy.testing import rowset
 from sqlalchemy.util import column_set
 
 from settings import *
-from sprites import Sprite, MovingSprite, AnimatedSprite, Item, ParticleEffectSprite
+from sprites import Sprite, MovingSprite, AnimatedSprite, Item, ParticleEffectSprite, Spike
 from player import Player
 from groups import AllSprites
 from enemies import Tooth, Shell, Pearl
@@ -31,7 +31,9 @@ class Level:
 			width = tmx_map.width,
 			height = tmx_map.height,
 			bg_tile = bg_tile,
-			top_limit = tmx_level_properties['top_limit']) # Все спрайты
+			top_limit = tmx_level_properties['top_limit'],
+			clouds = {'large': level_frames['cloud_large'], 'small': level_frames['cloud_small']},
+			horizon_line = tmx_level_properties['horizon_line']) # Все спрайты
 
 		self.collision_sprites = pygame.sprite.Group() # Спрайты, с которыми происходят коллизии
 		self.semi_collision_sprites = pygame.sprite.Group() # Спрайты с частичными коллизиями
@@ -87,7 +89,31 @@ class Level:
 
 		# Создание движущихся объектов на основе слоя Moving Objects
 		for obj in tmx_map.get_layer_by_name('Moving Objects'):
-			if obj.name == 'helicopter':
+			if obj.name == 'spike':
+				Spike(
+					pos = (obj.x + obj.width / 2, obj.y + obj.height / 2),
+					surf = level_frames['spike'],
+					radius = obj.properties['radius'],
+					speed =obj.properties['speed'],
+					start_angle =obj.properties['start_angle'],
+					end_angle = obj.properties['end_angle'],
+					groups = (self.all_sprites, self.damage_sprites))
+
+				for radius in range(0, obj.properties['radius'], 20):
+					Spike(
+						pos = (obj.x + obj.width / 2, obj.y + obj.height / 2),
+						surf = level_frames['spike_chain'],
+						radius = radius,
+						speed = obj.properties['speed'],
+						start_angle = obj.properties['start_angle'],
+						end_angle = obj.properties['end_angle'],
+						groups = self.all_sprites,
+						z = Z_LAYERS['bg details'])
+
+			else:
+				frames = level_frames[obj.name]
+				groups = (self.all_sprites, self.semi_collision_sprites) if obj.properties['platform'] else (self.all_sprites, self.damage_sprites)
+				print(frames)
 				# Определяем направление движения в зависимости от размеров объекта
 				if obj.width > obj.height: #Если ширина больше высоты, движение горизонтальное
 					move_dir = 'x'
@@ -102,7 +128,19 @@ class Level:
 				speed = obj.properties['speed']
 
 				#Создаем движущийся спрайт и добавляем его в соответствующие группы
-				MovingSprite((self.all_sprites, self.semi_collision_sprites), start_pos, end_pos, move_dir, speed)
+				MovingSprite(frames, groups, start_pos, end_pos, move_dir, speed, obj.properties['flip'])
+
+				if obj.name == 'saw':
+					if move_dir == 'x':
+						y = start_pos[1] - level_frames['saw_chain'].get_height() / 2
+						left, right = int(start_pos[0]), int(end_pos[0])
+						for x in range(left, right, 20):
+							Sprite((x, y) , level_frames['saw_chain'], self.all_sprites, Z_LAYERS['bg details'])
+					else:
+						x = start_pos[0] - level_frames['saw_chain'].get_width() / 2
+						top, bottom = int(start_pos[1]), int(end_pos[1])
+						for y in range(top, bottom, 20):
+							Sprite((x, y), level_frames['saw_chain'], self.all_sprites, Z_LAYERS['bg details'])
 
 		# Злодеи
 		for obj in tmx_map.get_layer_by_name('Enemies'):
@@ -178,11 +216,13 @@ class Level:
 
 		# bottom border
 		if self.player.hitbox_rect.bottom > self.level_bottom:
-			print('oi wei')
+			pass
+			# print('oi wei')
 
 		# Успех
 		if self.player.hitbox_rect.colliderect(self.level_finish_rect):
-			print('success')
+			pass
+			# print('success')
 
 	# Метод обновления и отрисовки уровня в каждом кадре
 	def run(self, dt):
@@ -198,7 +238,7 @@ class Level:
 		self.check_constraint()
 
 		# Отрисовываем все спрайты на экране
-		self.all_sprites.draw(self.player.hitbox_rect.center)
+		self.all_sprites.draw(self.player.hitbox_rect.center, dt)
 
 
 

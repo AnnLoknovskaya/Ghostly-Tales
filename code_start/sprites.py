@@ -1,3 +1,6 @@
+from math import sin, cos, radians
+from random import randint
+
 import pygame
 
 from settings import *
@@ -43,7 +46,6 @@ class Item(AnimatedSprite):
 		if self.item_type == 'potion':
 			self.data.health += 1
 
-
 class ParticleEffectSprite(AnimatedSprite):
 	def __init__(self, pos, frames, groups):
 		super().__init__(pos, frames, groups)
@@ -58,12 +60,12 @@ class ParticleEffectSprite(AnimatedSprite):
 			self.kill()
 
 # Класс движущегося спрайта (например, платформы)
-class MovingSprite(Sprite):
-	def __init__(self, groups, start_pos, end_pos, move_dir, speed):
+class MovingSprite(AnimatedSprite):
+	def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed, flip = False):
 		# Создание поверхности спрайта
-		surf = pygame.Surface((170, 50))
-		super().__init__(start_pos, surf, groups)
-		self.image.fill('gray')
+		# surf = pygame.Surface((170, 50))
+		super().__init__(start_pos, frames, groups)
+		# self.image.fill('gray')
 
 		# Установка начального положения
 		if move_dir == 'x': # Если движение по горизонтали
@@ -80,6 +82,8 @@ class MovingSprite(Sprite):
 		self.moving = True # Флаг, указывающий, движется ли объект
 		self.direction = vector(1, 0) if move_dir == 'x' else vector(0, 1) # Определение направления движения
 		self.move_dir = move_dir # Сохранение оси движения ('x' или 'y')
+		self.flip = flip
+		self.reverse = {'x': False, 'y': False}
 
 	# Метод проверки границ движения (чтобы объект двигался в пределах start_pos и end_pos)
 	def check_border(self):
@@ -92,6 +96,7 @@ class MovingSprite(Sprite):
 			if self.rect.left <= self.start_pos[0] and self.direction.x == -1:
 				self.direction.x = 1
 				self.rect.left = self.start_pos[0]
+			self.reverse['x'] = True if self.direction.x < 0 else False
 
 		else: # Если движение по вертикали
 			# Если объект достиг конечной точки внизу, меняем направление вверх
@@ -102,9 +107,78 @@ class MovingSprite(Sprite):
 			if self.rect.top <= self.start_pos[1] and self.direction.y == -1:
 				self.direction.y = 1
 				self.rect.top = self.start_pos[1]
+			self.reverse['y'] = True if self.direction.y > 0 else False
 
 	# Метод обновления позиции спрайта
 	def update(self, dt):
 		self.old_rect = self.rect.copy() # Сохраняем предыдущее положение для обработки коллизий
 		self.rect.topleft += self.direction * self.speed * dt # Перемещаем объект в заданном направлении
 		self.check_border() # Проверяем границы движения и меняем направление, если необходимо
+		self.animate(dt)
+		if self.flip:
+			self.image = pygame.transform.flip(self.image, self.reverse['x'], self.reverse['y'])
+
+class Spike(Sprite):
+	def __init__(self, pos, surf, groups, radius, speed, start_angle, end_angle, z = Z_LAYERS['main']):
+		self.center = pos
+		self.radius = radius
+		self.speed = speed
+		self.start_angle = start_angle
+		self.end_angle = end_angle
+		self.angle = self.start_angle
+		self.direction = 1
+		self.full_circle = True if self.end_angle == -1 else False
+
+		# Тригонометрия
+		y = self.center[1] + sin(radians(self.angle)) * self.radius
+		x = self.center[0] + cos(radians(self.angle)) * self.radius
+
+		super().__init__((x, y), surf, groups, z)
+
+	def update(self, dt):
+		self.angle += self.direction * self.speed * dt
+
+		if not self.full_circle:
+			if self.angle >= self.end_angle:
+				self.direction = -1
+			if self.angle < self.start_angle:
+				self.direction = 1
+
+		y = self.center[1] + sin(radians(self.angle)) * self.radius
+		x = self.center[0] + cos(radians(self.angle)) * self.radius
+		self.rect.center = (x, y)
+
+class Cloud(Sprite):
+	def __init__(self, pos, surf, groups, z = Z_LAYERS['clouds']):
+		super().__init__(pos, surf, groups, z)
+		self.speed = randint(50, 120)
+		self.direction = -1
+		self.rect.midbottom = pos
+	def update(self, dt):
+		self.rect.x += self.direction * self.speed * dt
+
+		if self.rect.right <= 0:
+			self.kill()
+
+class Node(pygame.sprite.Sprite):
+	def __init__(self, pos, surf, groups, level, data):
+		super().__init__(groups)
+		self.image = surf
+		self.rect = self.image.get_frect(center = (pos[0] + TILE_SIZE / 2, pos[1] + TILE_SIZE / 2))
+		self.z = Z_LAYERS['path']
+		self.level = level
+		self.data = data
+
+class Icon(pygame.sprite.Sprite):
+	def __init__(self, pos, groups, frames):
+		super().__init__(groups)
+		self.icon = True
+
+		#image
+		self.frames, self.frame_index = frames, 0
+		self.state = 'idle_girl'
+		self.image = self.frames[self.state][self.frame_index]
+		self.z = Z_LAYERS['main']
+
+		# rect
+		self.rect = self.image.get_frect(center = pos)

@@ -10,6 +10,7 @@ from support import *
 from data import Data
 from debug import debug
 from ui import UI
+from overworld import Overworld
 
 # Класс Game — управляет всей игрой
 class Game:
@@ -24,14 +25,16 @@ class Game:
 		self.data = Data(self.ui)
 		# Загрузка карты уровня из TMX файла
 		self.tmx_maps = {0: load_pygame(join('..', 'data', 'levels', 'omni.tmx'))} # Загружаем карту и сохраняем в словарь
-		self.current_stage = Level(self.tmx_maps[0], self.level_frames, self.data) # Создаём объект Level с загруженной картой
+		self.tmx_overworld = load_pygame(join('..', 'data', 'overworld', 'overworld.tmx'))
+		# self.current_stage = Level(self.tmx_maps[0], self.level_frames, self.data) # Создаём объект Level с загруженной картой
+		self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames)
 
 	def import_assets(self):
 		self.level_frames = {
 			'flag': import_folder('..', 'graphics', 'level', 'flag'),
 			'saw': import_folder('..', 'graphics', 'enemies', 'saw', 'animation'),
 			'floor_spike': import_folder('..', 'graphics', 'enemies', 'floor_spikes'),
-			'palms': import_sub_folders('..', 'graphics', 'level', 'palms'),
+			'palms': import_sub_folders('..', 'graphics', 'level', 'palm'),
 			'candle': import_folder('..', 'graphics', 'level', 'candle'),
 			'window': import_folder('..', 'graphics', 'level', 'window'),
 			'big_chain': import_folder('..', 'graphics', 'level', 'big_chain'),
@@ -46,13 +49,25 @@ class Game:
 			'water_top': import_folder('..', 'graphics', 'level', 'water', 'top'),
 			'water_body': import_image('..', 'graphics', 'level', 'water', 'body'),
 			'boat': import_folder('..', 'graphics', 'objects', 'boat'),
-			'bg_tiles': import_folder_dict('..', 'graphics', 'level', 'bg', 'tiles')
+			'bg_tiles': import_folder_dict('..', 'graphics', 'level', 'bg', 'tiles'),
+			'cloud_small': import_folder('..', 'graphics', 'level', 'clouds', 'small'),
+			'cloud_large': import_image('..', 'graphics', 'level', 'clouds', 'large_cloud'),
+			'helicopter': import_folder('..', 'graphics', 'level', 'helicopter'),
+			'saw_chain': import_image('..', 'graphics', 'enemies', 'saw', 'saw_chain'),
+			'spike': import_image('..', 'graphics', 'enemies', 'spike_ball', 'Spiked Ball'),
+			'spike_chain': import_image('..', 'graphics', 'enemies', 'spike_ball', 'spiked_chain')
 		}
 
 		self.font = pygame.font.Font(join('..', 'graphics', 'ui', 'runescape_uf.ttf'), 40)
 		self.ui_frames = {
 			'heart': import_folder('..', 'graphics', 'ui', 'heart'),
 			'coin': import_image('..', 'graphics', 'ui', 'coin')
+		}
+		self.overworld_frames = {
+			'palms': import_folder('..', 'graphics', 'overworld', 'palm'),
+			'water': import_folder('..', 'graphics', 'overworld', 'water'),
+			'path': import_folder_dict('..', 'graphics', 'overworld', 'path'),
+			'icon': import_sub_folders('..', 'graphics', 'overworld', 'icon')
 		}
 
 	# Главный игровой цикл

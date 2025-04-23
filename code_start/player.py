@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = 500 # Скорость передвижения
         self.gravity = 3000 #Гравитация
         self.jump = False # Флаг для прыжка
-        self.jump_height = 1800 # Сила прыжка
+        self.jump_height = 1200 # Сила прыжка
         self.attacking = False
 
         # Коллизии
@@ -230,7 +230,9 @@ class Player(pygame.sprite.Sprite):
             self.attacking = False
 
     def get_state(self):
-        if self.on_surface['floor']:
+        if self.timers['hit'].active:
+            self.state = 'hurt_girl'
+        elif self.on_surface['floor']:
             if self.attacking:
                 self.state = 'attack_girl'
             else:
@@ -240,7 +242,7 @@ class Player(pygame.sprite.Sprite):
                 self.state = 'air_attack_girl'
             else:
                 if any((self.on_surface['left'], self.on_surface['right'])):
-                    self.state == 'wall'
+                    self.state = 'idle_girl'
                 else:
                     self.state = 'jump_girl' if self.direction.y < 0 else 'fall_girl'
 
@@ -249,12 +251,12 @@ class Player(pygame.sprite.Sprite):
             self.data.health -= 1
             self.timers['hit'].activate()
 
-    def flicker(self):
-        if self.timers['hit'].active and sin(pygame.time.get_ticks() * 100) >= 0:
-            white_mask = pygame.mask.from_surface(self.image)
-            white_surf = white_mask.to_surface()
-            white_surf.set_colorkey('black')
-            self.image = white_surf
+    # def flicker(self):
+    #     if self.timers['hit'].active and sin(pygame.time.get_ticks() * 100) >= 0:
+    #         white_mask = pygame.mask.from_surface(self.image)
+    #         white_surf = white_mask.to_surface(setcolor=(205, 92, 92))
+    #         white_surf.set_colorkey('black')
+    #         self.image = white_surf
 
     # Основной метод обновления
     def update(self, dt):
@@ -269,4 +271,4 @@ class Player(pygame.sprite.Sprite):
 
         self.get_state()
         self.animate(dt)
-        self.flicker()
+        # self.flicker()
