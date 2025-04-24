@@ -28,12 +28,10 @@ class WorldSprites(pygame.sprite.Group):
         for sprite in sorted(self, key = lambda sprite: sprite.rect.centery):
             if sprite.z == Z_LAYERS['main']:
                 if hasattr(sprite, 'icon'):
-                    self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset + vector(0, -28))
+                    offset_pos = pygame.Vector2(sprite.rect.topleft) + self.offset + vector(0, -28)
+                    self.display_surface.blit(sprite.image, offset_pos)
                 else:
-                    self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)
-
-
-
+                    self.display_surface.blit(sprite.image, pygame.Vector2(sprite.rect.topleft) + self.offset)
 
 
 class AllSprites(pygame.sprite.Group):
@@ -122,5 +120,4 @@ class AllSprites(pygame.sprite.Group):
             self.draw_large_cloud(dt)
 
         for sprite in sorted(self, key = lambda sprite: sprite.z):
-            offset_pos = sprite.rect.topleft + self.offset
-            self.display_surface.blit(sprite.image, offset_pos)
+            self.display_surface.blit(sprite.image, pygame.Vector2(sprite.rect.topleft) + self.offset)
