@@ -105,6 +105,6 @@ class Game:
 			pygame.display.update()
 
 # Запуск игры
-if __name__ == '__main__':
-	game = Game() # Создаём экземпляр класса Game
-	game.run() # Запускаем главный цикл игры
+# if __name__ == '__main__':
+# 	game = Game() # Создаём экземпляр класса Game
+# 	game.run() # Запускаем главный цикл игры

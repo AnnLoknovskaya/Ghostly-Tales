@@ -86,7 +86,8 @@ class Level:
 						frames = level_frames[obj.name]
 						AnimatedSprite((obj.x, obj.y), frames, self.all_sprites)
 			if obj.name == 'flag':
-				self.level_finish_rect = pygame.FRect((obj.x, obj.y), (obj.width, obj.height))
+				#######
+				self.level_finish_rect = pygame.Rect((obj.x, obj.y), (obj.width, obj.height))
 
 		# Создание движущихся объектов на основе слоя Moving Objects
 		for obj in tmx_map.get_layer_by_name('Moving Objects'):
