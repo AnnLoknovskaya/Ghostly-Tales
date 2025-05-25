@@ -148,11 +148,6 @@
  <objectgroup id="4" name="Objects">
   <object id="4" name="flag" gid="219" x="1184" y="384" width="68" height="186"/>
   <object id="15" name="player" gid="223" x="368.004" y="1665.87" width="74" height="56"/>
-  <object id="88" name="saw" x="448" y="1216" width="64" height="64">
-   <properties>
-    <property name="speed" type="int" value="0"/>
-   </properties>
-  </object>
   <object id="89" name="saw" x="576" y="1152" width="64" height="64">
    <properties>
     <property name="speed" type="int" value="0"/>

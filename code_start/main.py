@@ -35,7 +35,6 @@ class Game:
 			3: load_pygame(join('..', 'data', 'levels', '3.tmx')),
 			4: load_pygame(join('..', 'data', 'levels', '4.tmx')),
 			5: load_pygame(join('..', 'data', 'levels', '5.tmx')),
-			6: load_pygame(join('..', 'data', 'levels', '6.tmx'))
 		} # Загружаем карту и сохраняем в словарь
 
 		self.tmx_overworld = load_pygame(join('..', 'data', 'overworld', 'overworld.tmx'))
