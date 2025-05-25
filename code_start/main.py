@@ -1,4 +1,8 @@
 # Импорт необходимых модулей
+import sys
+
+import pygame
+
 from settings import *
 from level import Level
 # Импорт функции загрузки карт TMX (карты, созданные в Tiled)
@@ -31,15 +35,19 @@ class Game:
 			3: load_pygame(join('..', 'data', 'levels', '3.tmx')),
 			4: load_pygame(join('..', 'data', 'levels', '4.tmx')),
 			5: load_pygame(join('..', 'data', 'levels', '5.tmx')),
+			6: load_pygame(join('..', 'data', 'levels', '6.tmx'))
 		} # Загружаем карту и сохраняем в словарь
 
 		self.tmx_overworld = load_pygame(join('..', 'data', 'overworld', 'overworld.tmx'))
-		self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.data, self.switch_stage) # Создаём объект Level с загруженной картой
+		self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data, self.switch_stage) # Создаём объект Level с загруженной картой
 		# self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames)
+		self.bg_music.play(-1)
+		self.bg_music.set_volume(0.2)
+		self.running = True
 
 	def switch_stage(self, target, unlock=0):
 		if target == 'level':
-			self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.data,
+			self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data,
 									   self.switch_stage)
 		else:
 			if unlock > 0:
@@ -58,7 +66,7 @@ class Game:
 			'window': import_folder('..', 'graphics', 'level', 'window'),
 			'big_chain': import_folder('..', 'graphics', 'level', 'big_chain'),
 			'small_chain': import_folder('..', 'graphics', 'level', 'small_chain'),
-			'candle_light': import_folder('..', 'graphics', 'level', 'candle_light'),
+			'candle_light': import_folder('..', 'graphics', 'level', 'candle light'),
 			'player': import_sub_folders('..', 'graphics', 'player'),
 			'tooth': import_folder('..', 'graphics', 'enemies', 'tooth', 'run'),
 			'shell': import_sub_folders('..', 'graphics', 'enemies', 'shell'),
@@ -89,19 +97,33 @@ class Game:
 			'icon': import_sub_folders('..', 'graphics', 'overworld', 'icon')
 		}
 
-	# Главный игровой цикл
-	def run(self):
-		while True:
-			dt = self.clock.tick() / 1000 # Ограничение FPS и расчёт времени между кадрами (delta time)
-			for event in pygame.event.get(): # Обрабатываем все события (например, нажатия клавиш, выход)
-				if event.type == pygame.QUIT: # Если нажата кнопка закрытия окна
-					pygame.quit() # Закрываем Pygame
-					sys.exit() # Выходим из программы
+		self.audio_files = {
+			'coin': pygame.mixer.Sound(join('..', 'audio', 'coin.wav')),
+			'attack': pygame.mixer.Sound(join('..', 'audio', 'attack.wav')),
+			'jump': pygame.mixer.Sound(join('..', 'audio', 'jumpp.mp3')),
+			'damage': pygame.mixer.Sound(join('..', 'audio', 'damage.wav')),
+			'pearl': pygame.mixer.Sound(join('..', 'audio', 'pearl.wav')),
+		}
 
-			# Запуск обновления и отрисовки текущего уровня
+		self.bg_music = pygame.mixer.Sound(join('..', 'audio', 'my_roman_empire.mp3'))
+
+	# def check_game_over(self):
+	# 	if self.data.health <= 0:
+	# 		self.bg_music.stop()
+	# 		self.running = False
+
+	def run(self):
+		self.running = True
+		while self.running:
+			dt = self.clock.tick() / 1000
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					pygame.quit()
+					sys.exit()
+
+			# self.check_game_over()
 			self.current_stage.run(dt)
 			self.ui.update(dt)
-			# Обновление экрана (отрисовка нового кадра)
 			pygame.display.update()
 
 # Запуск игры

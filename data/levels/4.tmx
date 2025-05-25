@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="24" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="14" nextobjectid="245">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="24" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="14" nextobjectid="246">
  <tileset firstgid="1" source="../tilesets/outside.tsx"/>
  <tileset firstgid="49" source="../tilesets/items.tsx"/>
  <tileset firstgid="54" source="../tilesets/inside.tsx"/>
@@ -147,13 +147,8 @@
  </layer>
  <objectgroup id="4" name="Objects">
   <object id="4" name="flag" gid="232" x="1184" y="384" width="68" height="186"/>
-  <object id="15" name="player" gid="236" x="320" y="1216" width="74" height="56"/>
+  <object id="15" name="player" gid="236" x="259.701" y="561.029" width="74" height="56"/>
   <object id="91" name="saw" x="960" y="1536" width="64" height="64">
-   <properties>
-    <property name="speed" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="134" name="saw" x="352" y="352" width="64" height="64">
    <properties>
     <property name="speed" type="int" value="0"/>
    </properties>
@@ -204,16 +199,6 @@
    </properties>
   </object>
   <object id="191" name="floor_spike" gid="1073742063" x="1088" y="640" width="64" height="64">
-   <properties>
-    <property name="inverted" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="192" name="floor_spike" gid="1073742063" x="512" y="576" width="64" height="64">
-   <properties>
-    <property name="inverted" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="193" name="floor_spike" gid="1073742063" x="640" y="384" width="64" height="64">
    <properties>
     <property name="inverted" type="bool" value="true"/>
    </properties>
@@ -324,25 +309,16 @@
   <object id="243" name="gold" gid="50" x="448" y="1536" width="64" height="64"/>
   <object id="244" name="gold" gid="50" x="768" y="1408" width="64" height="64"/>
  </objectgroup>
- <objectgroup id="6" name="Enemies">
-  <object id="223" name="tooth" gid="238" x="512" y="1728" width="48" height="46"/>
-  <object id="224" name="tooth" gid="238" x="832" y="1728" width="48" height="46"/>
-  <object id="225" name="tooth" gid="238" x="576" y="1728" width="48" height="46"/>
-  <object id="227" name="tooth" gid="238" x="960" y="1728" width="48" height="46"/>
-  <object id="228" name="tooth" gid="238" x="384" y="1728" width="48" height="46"/>
-  <object id="229" name="tooth" gid="238" x="704" y="1728" width="48" height="46"/>
-  <object id="230" name="tooth" gid="238" x="896" y="1728" width="48" height="46"/>
-  <object id="231" name="tooth" gid="238" x="256" y="1280" width="48" height="46"/>
- </objectgroup>
+ <objectgroup id="6" name="Enemies"/>
  <objectgroup id="2" name="Water" visible="0"/>
- <objectgroup id="8" name="Data" visible="0">
+ <objectgroup id="8" name="Data">
   <object id="28" name="Data" x="0" y="0" width="64" height="64">
    <properties>
     <property name="bg" value="Pink"/>
     <property name="bottom_limit" type="int" value="200"/>
     <property name="death_border_bottom" type="int" value="0"/>
     <property name="horizon_line" type="int" value="600"/>
-    <property name="level_unlock" type="int" value="3"/>
+    <property name="level_unlock" type="int" value="5"/>
     <property name="top_limit" type="int" value="0"/>
    </properties>
   </object>

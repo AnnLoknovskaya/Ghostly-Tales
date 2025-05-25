@@ -6,7 +6,7 @@ from math import sin
 
 # Класс игрока
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites, semi_collision_sprites, frames, data):
+    def __init__(self, pos, groups, collision_sprites, semi_collision_sprites, frames, data, attack_sound, jump_sound):
         super().__init__(groups)
         self.z = Z_LAYERS['main']
         self.data = data
@@ -44,6 +44,10 @@ class Player(pygame.sprite.Sprite):
             'attack block': Timer(500),
             'hit': Timer(400)
         }
+
+        self.attack_sound = attack_sound
+        self.jump_sound = jump_sound
+        self.jump_sound.set_volume(0.2)
 
     # Метод для обработки ввода от игрока
     def input(self):
@@ -83,6 +87,7 @@ class Player(pygame.sprite.Sprite):
             self.attacking = True  # Начинаем атаку
             self.frame_index = 0  # Сброс индекса кадров для анимации атаки
             self.timers['attack block'].activate()
+            self.attack_sound.play()
 
 
     # Метод для обработки движений игрока
@@ -102,22 +107,6 @@ class Player(pygame.sprite.Sprite):
             self.direction.y += self.gravity * dt # Применяем полную гравитацию
             self.hitbox_rect.y += self.direction.y * dt # Перемещаем игрока по вертикали
 
-        # # Добавим параметр для скольжения по стене
-        # self.wall_slide_speed = 50  # Ускорение падения при скольжении по стене
-        #
-        # # Обработка вертикального движения (прыжок и падение)
-        # if not self.on_surface['floor'] and any((self.on_surface['left'], self.on_surface['right'])):
-        #     # Если игрок не стоит на поверхности, но касается стены
-        #     if self.direction.y > 0:  # Если игрок падает вниз
-        #         # Применяем ускоренную гравитацию для скольжения по стенам
-        #         self.direction.y = min(self.direction.y + self.wall_slide_speed * dt, self.gravity)
-        #     else:
-        #         self.direction.y = 0  # Если игрок не падает, то вертикальная скорость 0
-        #     self.hitbox_rect.y += self.direction.y * dt
-        # else:
-        #     # Если игрок на земле, то применяем нормальную гравитацию
-        #     self.direction.y += self.gravity * dt
-        #     self.hitbox_rect.y += self.direction.y * dt
 
         # Обработка прыжка
         if self.jump:
@@ -126,11 +115,13 @@ class Player(pygame.sprite.Sprite):
                 self.direction.y = -self.jump_height # Устанавливаем вертикальное движение вверх
                 self.timers['wall slide block'].activate() # Блокируем скольжение по стене
                 self.hitbox_rect.bottom -= 1  # Корректируем положение игрока
+                self.jump_sound.play()
             elif any((self.on_surface['left'], self.on_surface['right'])) and not self.timers[
                 'wall slide block'].active:  # Если игрок прыгает от стены
                 self.timers['wall jump'].activate() # Активируем таймер прыжка по стене
                 self.direction.y = -self.jump_height # Прыжок вверх
                 self.direction.x = 1 if self.on_surface['left'] else -1 # Прыжок в сторону стены
+                self.jump_sound.play()
             self.jump = False # Сбрасываем флаг прыжка
 
         # Проверка вертикальных коллизий
@@ -245,6 +236,7 @@ class Player(pygame.sprite.Sprite):
                     self.state = 'idle_girl'
                 else:
                     self.state = 'jump_girl' if self.direction.y < 0 else 'fall_girl'
+
 
     def get_damage(self):
         if not self.timers['hit'].active:

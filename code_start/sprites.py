@@ -76,7 +76,7 @@ class MovingSprite(AnimatedSprite):
 		# Параметры движения
 		self.start_pos = start_pos # Начальная точка движения
 		self.end_pos = end_pos # Конечная точка движения
-		self.speed = speed * 9 # Скорость движения (умножаем для масштабирования)
+		self.speed = speed * 5 # Скорость движения (умножаем для масштабирования)
 
 		# Логика движения
 		self.moving = True # Флаг, указывающий, движется ли объект

@@ -16,7 +16,7 @@ class Tooth(pygame.sprite.Sprite):
 
         self.direction = choice((-1, 1))
         self.collision_rects = [sprite.rect for sprite in collision_sprites]
-        self.speed = 200
+        self.speed = 500
 
         self.hit_timer = Timer(250)
 
@@ -125,6 +125,7 @@ class Pearl(pygame.sprite.Sprite):
         for timer in self.timers.values():
             timer.update()
 
-        self.rect.x += self.direction * self.speed * dt
+        #!!! Поменяла скорость движения пули
+        self.rect.x += self.direction * self.speed * dt * 3
         if not self.timers['lifetime'].active:
             self.kill()

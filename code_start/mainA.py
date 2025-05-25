@@ -25,10 +25,10 @@ button_up = []
 button_med = []
 button_low = []
 
-WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Ghostly Tales")
-main_background = pygame.image.load("image/menu1920.jpg")
+main_background = pygame.image.load("image/menu1280.jpg")
 
 cursor = pygame.image.load("image/cursor.png")
 pygame.mouse.set_visible(False)
@@ -211,6 +211,7 @@ def general_game():
 def new_game():
     game = Game()
     game.run()
+    fade()
     # back_game_button = ImageButton(WIDTH/20, HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
     # button_low.append(back_game_button)
 

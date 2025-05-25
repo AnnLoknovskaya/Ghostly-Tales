@@ -68,14 +68,6 @@ class AllSprites(pygame.sprite.Group):
             self.large_cloud_tiles = int(self.width / self.large_cloud.get_width()) + 2
             self.large_cloud_width, self.large_cloud_height = self.large_cloud.get_size()
 
-            # # Маленькие облака
-            # self.cloud_timer = Timer(2500, self.create_cloud, True)
-            # self.cloud_timer.activate()
-            # for cloud in range(20):
-            #     pos = (randint(0, self.width), randint(self.borders['top'], self.horizon_line))
-            #     surf = choice(self.small_clouds)
-            #     Cloud(pos, surf, self)
-
 
     def camera_constraint(self):
         self.offset.x = self.offset.x if self.offset.x < self.borders['left'] else self.borders['left']
