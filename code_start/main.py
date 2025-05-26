@@ -1,6 +1,6 @@
 # Импорт необходимых модулей
 import sys
-
+from mainA import main_menu, fade
 import pygame
 
 from settings import *
@@ -37,22 +37,47 @@ class Game:
 			5: load_pygame(join('..', 'data', 'levels', '5.tmx')),
 		} # Загружаем карту и сохраняем в словарь
 
+		self.bg_music = pygame.mixer.Sound(join('..', 'audio', 'my_roman_empire.mp3'))
 		self.tmx_overworld = load_pygame(join('..', 'data', 'overworld', 'overworld.tmx'))
-		self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data, self.switch_stage) # Создаём объект Level с загруженной картой
+		self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data, self.switch_stage, self.bg_music) # Создаём объект Level с загруженной картой
 		# self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames)
 		self.bg_music.play(-1)
 		self.bg_music.set_volume(0.2)
 		self.running = True
 
+	def check_game_over(self):
+		if self.data.health <= 0:
+			self.bg_music.stop()
+			self.running = False
+			return True
+
+		elif self.data.current_level == 6:
+			self.data.coins = 0
+			self.data.health = 5
+			self.data.unlocked_level = 0
+			self.data.current_level = 0
+			self.data.save()
+			self.bg_music.stop()
+			self.running = False
+			return True
+
+		return False
+
 	def switch_stage(self, target, unlock=0):
 		if target == 'level':
-			self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data,
-									   self.switch_stage)
+			self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files,
+									   self.data,
+									   self.switch_stage,
+									   self.bg_music)
 		else:
 			if unlock > 0:
-				self.data.unlocked_level = max(self.data.unlocked_level, unlock)  # ← важно: берем максимум!
-			else:
-				self.data.health -= 1
+				self.data.unlocked_level = max(self.data.unlocked_level, unlock)
+
+				# Проверяем, если это последний уровень — завершаем игру
+				if unlock == 6:  # последний уровень
+					self.running = False  # остановить игровой цикл
+					return  # выход из метода, чтобы не создавать Overworld
+
 			self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames, self.switch_stage)
 
 	def import_assets(self):
@@ -104,8 +129,6 @@ class Game:
 			'pearl': pygame.mixer.Sound(join('..', 'audio', 'pearl.wav')),
 		}
 
-		self.bg_music = pygame.mixer.Sound(join('..', 'audio', 'my_roman_empire.mp3'))
-
 	# def check_game_over(self):
 	# 	if self.data.health <= 0:
 	# 		self.bg_music.stop()
@@ -117,8 +140,15 @@ class Game:
 			dt = self.clock.tick() / 1000
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
+					self.data.save()  # сохраняем прогресс
 					pygame.quit()
 					sys.exit()
+
+			# Проверка условий завершения игры
+			if self.check_game_over():
+				fade()  # Можно сделать плавное затухание экрана
+				main_menu()  # Возврат в главное меню
+				break  # Выходим из игрового цикла
 
 			# self.check_game_over()
 			self.current_stage.run(dt)

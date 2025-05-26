@@ -11,11 +11,12 @@ from enemies import Tooth, Shell, Pearl
 
 # Создание уровня
 class Level:
-	def __init__(self, tmx_map, level_frames, audio_files, data, switch_stage):
+	def __init__(self, tmx_map, level_frames, audio_files, data, switch_stage, bg_music):
 		# Получаем поверхность экрана для отображения
 		self.display_surface = pygame.display.get_surface()
 		self.data = data
 		self.switch_stage = switch_stage
+		self.bg_music = bg_music
 
 		# Данные уровня
 		self.level_width = tmx_map.width * TILE_SIZE
@@ -232,13 +233,18 @@ class Level:
 		if self.player.hitbox_rect.right >= self.level_width:
 			self.player.hitbox_rect.right = self.level_width
 
-		# bottom border
+		# bottom border — если упал, теряем жизнь и возвращаемся в оверворлд
 		if self.player.hitbox_rect.bottom > self.level_bottom:
+			self.data.health -= 1  # Уменьшаем здоровье
 			self.switch_stage('overworld', -1)
 
-		# Успех
+		# Успех — достигли финишного флага
 		if self.player.hitbox_rect.colliderect(self.level_finish_rect):
-			self.switch_stage('overworld', self.level_unlock)
+			if self.data.current_level == 5:  # если последний уровень
+				self.bg_music.stop()
+				self.switch_stage('overworld', 6)  # завершаем игру
+			else:
+				self.switch_stage('overworld', self.level_unlock)
 
 	# Метод обновления и отрисовки уровня в каждом кадре
 	def run(self, dt):

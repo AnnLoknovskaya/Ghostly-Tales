@@ -15,7 +15,7 @@ from data import Data
 from debug import debug
 from ui import UI
 from overworld import Overworld
-from main import Game
+# from main import Game
 
 pygame.init()
 
@@ -185,10 +185,15 @@ def general_game():
                 pygame.quit()
                 sys.exit()
 
+            # Я тут тыкалась
             if event.type == pygame.USEREVENT and event.button == newgame_button:
+                from main import Game
+                game = Game()
+                game.data.reset()  # Сброс прогресса
                 fade()
-                new_game()
+                game.run()
 
+            # Я тут тыкалась
             if event.type == pygame.USEREVENT and event.button == loadgame_button:
                 fade()
                 new_game()
@@ -209,6 +214,7 @@ def general_game():
         pygame.display.flip()
 
 def new_game():
+    from main import Game
     game = Game()
     game.run()
     fade()
