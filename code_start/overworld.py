@@ -14,7 +14,11 @@ class Overworld:
         self.switch_stage = switch_stage
 
         # groups
-        self.all_sprites = WorldSprites(data)
+        self.all_sprites = WorldSprites(
+            data,
+            map_width=tmx_map.width,
+            map_height=tmx_map.height
+        )
         self.node_sprites = pygame.sprite.Group()
 
         self.setup(tmx_map, overworld_frames)

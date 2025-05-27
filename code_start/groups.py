@@ -5,15 +5,40 @@ from sprites import Sprite, Cloud
 from timer import Timer
 
 class WorldSprites(pygame.sprite.Group):
-    def __init__(self, data):
+    def __init__(self, data, map_width, map_height):
         super().__init__()
         self.display_surface = pygame.display.get_surface()
         self.data = data
         self.offset = vector()
 
+        # Размеры карты в пикселях
+        self.width = map_width * TILE_SIZE
+        self.height = map_height * TILE_SIZE
+
+        # Границы камеры (чтобы камера не выходила за края карты)
+        self.borders = {
+            'left': 0,
+            'right': -self.width + WINDOW_WIDTH,
+            'top': 0,
+            'bottom': -self.height + WINDOW_HEIGHT
+        }
+
+    def camera_constraint(self):
+        if self.offset.x > self.borders['left']:
+            self.offset.x = self.borders['left']
+        if self.offset.x < self.borders['right']:
+            self.offset.x = self.borders['right']
+        if self.offset.y > self.borders['top']:
+            self.offset.y = self.borders['top']
+        if self.offset.y < self.borders['bottom']:
+            self.offset.y = self.borders['bottom']
+
     def draw(self, target_pos):
         self.offset.x = -(target_pos[0] - WINDOW_WIDTH / 2)
         self.offset.y = -(target_pos[1] - WINDOW_HEIGHT / 2)
+
+        # Ограничиваем смещение, чтобы камера не ушла за края карты
+        self.camera_constraint()
 
         # background
         for sprite in sorted(self, key = lambda sprite: sprite.z):

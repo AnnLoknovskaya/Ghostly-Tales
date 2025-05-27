@@ -65,20 +65,29 @@ class Game:
 
 	def switch_stage(self, target, unlock=0):
 		if target == 'level':
-			self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files,
-									   self.data,
-									   self.switch_stage,
-									   self.bg_music)
+			self.current_stage = Level(
+				self.tmx_maps[self.data.current_level],
+				self.level_frames,
+				self.audio_files,
+				self.data,
+				self.switch_stage,
+				self.bg_music
+			)
 		else:
+			# <-- Эта проверка только для успешного завершения уровня
 			if unlock > 0:
 				self.data.unlocked_level = max(self.data.unlocked_level, unlock)
+				if unlock == 6:
+					self.running = False
+					return
 
-				# Проверяем, если это последний уровень — завершаем игру
-				if unlock == 6:  # последний уровень
-					self.running = False  # остановить игровой цикл
-					return  # выход из метода, чтобы не создавать Overworld
-
-			self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames, self.switch_stage)
+			# Возвращаем в overworld на текущем уровне (даже если он не был пройден)
+			self.current_stage = Overworld(
+				self.tmx_overworld,
+				self.data,
+				self.overworld_frames,
+				self.switch_stage
+			)
 
 	def import_assets(self):
 		self.level_frames = {
