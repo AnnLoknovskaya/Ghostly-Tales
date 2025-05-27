@@ -8,6 +8,7 @@ from player import Player
 from groups import AllSprites
 from enemies import Tooth, Shell, Pearl
 
+from cutscenes import cut2
 
 # Создание уровня
 class Level:
@@ -108,7 +109,7 @@ class Level:
 						animation_speed = ANIMATION_SPEED if not 'palm' in obj.name else ANIMATION_SPEED + uniform(-1, 1)
 						AnimatedSprite((obj.x, obj.y), frames, groups, z, animation_speed)
 			if obj.name == 'flag':
-				self.level_finish_rect = pygame.FRect((obj.x, obj.y), (obj.width, obj.height))
+				self.level_finish_rect = pygame.Rect((obj.x, obj.y), (obj.width, obj.height))
 
 		# moving objects
 		for obj in tmx_map.get_layer_by_name('Moving Objects'):
@@ -243,6 +244,10 @@ class Level:
 			if self.data.current_level == 5:  # если последний уровень
 				self.bg_music.stop()
 				self.switch_stage('overworld', 6)  # завершаем игру
+			#-------------------------------------------------------------------------------извените сь это мое
+			elif self.data.current_level == 0:
+				cut2()
+				self.switch_stage('overworld', self.level_unlock)
 			else:
 				self.switch_stage('overworld', self.level_unlock)
 

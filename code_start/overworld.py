@@ -31,8 +31,8 @@ class Overworld:
                 Sprite((x *TILE_SIZE, y *TILE_SIZE), surf, self.all_sprites, Z_LAYERS['bg tiles'])
 
         # water
-        for col in range(tmx_map.width):
-            for row in range(tmx_map.height):
+        for col in range(tmx_map.width*2):
+            for row in range(tmx_map.height*2):
                 AnimatedSprite((col * TILE_SIZE, row * TILE_SIZE), overworld_frames['water'], self.all_sprites, Z_LAYERS['bg'])
 
 

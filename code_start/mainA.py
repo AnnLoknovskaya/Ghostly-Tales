@@ -15,7 +15,9 @@ from data import Data
 from debug import debug
 from ui import UI
 from overworld import Overworld
-# from main import Game
+#from main import Game
+
+from cutscenes import *
 
 pygame.init()
 
@@ -25,21 +27,65 @@ button_up = []
 button_med = []
 button_low = []
 
-WIDTH, HEIGHT = 1280, 720
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+WINDOW_WIDTH, WINDOW_HEIGHT = 1920, 1080
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Ghostly Tales")
-main_background = pygame.image.load("image/menu1280.jpg")
+main_background = pygame.image.load("image/menu1920.jpg")
 
 cursor = pygame.image.load("image/cursor.png")
 pygame.mouse.set_visible(False)
 
-def main_menu():
-    new_game_button = ImageButton(WIDTH/20, HEIGHT/8, 307, 123, "", "image/button1920/start.png", "image/button1920/start_hover.png")
-    settings_button = ImageButton(WIDTH/20, HEIGHT*3/8, 460, 119, "", "image/button1920/settings.png", "image/button1920/settings_hover.png")
-    quit_button = ImageButton(WIDTH/20, HEIGHT*4/5, 292, 129, "", "image/button1920/quit.png", "image/button1920/quit_hover.png")
+# def main_menu():
+#     new_game_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT/8, 307, 123, "", "image/button1920/start.png", "image/button1920/start_hover.png")
+#     settings_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*3/8, 460, 119, "", "image/button1920/settings.png", "image/button1920/settings_hover.png")
+#     quit_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5, 292, 129, "", "image/button1920/quit.png", "image/button1920/quit_hover.png")
 
-    button_up.append(new_game_button)
-    button_med.append(settings_button)
+#     button_up.append(new_game_button)
+#     button_med.append(settings_button)
+#     button_low.append(quit_button)
+
+#     running = True
+#     while running:
+#         screen.fill((0, 0, 0))
+#         screen.blit(main_background, (0, 0))
+
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 running = False
+#                 pygame.quit()
+#                 sys.exit()
+
+#             if event.type == pygame.USEREVENT and event.button == new_game_button:
+#                 general_game()
+
+#             if event.type == pygame.USEREVENT and event.button == settings_button:
+#                 settings_menu()
+
+#             if event.type == pygame.USEREVENT and event.button == quit_button:
+#                 running = False
+#                 pygame.quit()
+#                 sys.exit()
+
+#             for btn in [new_game_button, settings_button, quit_button]:
+#                 btn.handle_event(event)
+
+#         for btn in [new_game_button, settings_button, quit_button]:
+#                 btn.check_hover(pygame.mouse.get_pos())
+#                 btn.draw(screen)
+
+#         x, y = pygame.mouse.get_pos()
+#         screen.blit(cursor, (x, y))
+
+#         pygame.display.flip()
+
+#--------------временно------------
+def main_menu():
+    newgame_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT/8, 463, 119, "", "image/button1920/newgame.png", "image/button1920/newgame_hover.png")
+    loadgame_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*3/8, 707, 119, "", "image/button1920/loadgame.png", "image/button1920/loadgame_hover.png")
+    quit_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5, 292, 129, "", "image/button1920/quit.png", "image/button1920/quit_hover.png")
+
+    button_up.append(newgame_button)
+    button_med.append(loadgame_button)
     button_low.append(quit_button)
 
     running = True
@@ -53,21 +99,31 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
 
-            if event.type == pygame.USEREVENT and event.button == new_game_button:
-                general_game()
+            # Я тут тыкалась (не только ты)
+            if event.type == pygame.USEREVENT and event.button == newgame_button:
+                from main import Game
+                fade()
+                cut1()
+                fade()
+                game = Game()
+                game.data.reset()  # Сброс прогресса
+                fade()
+                game.run()
 
-            if event.type == pygame.USEREVENT and event.button == settings_button:
-                settings_menu()
+            # Я тут тыкалась
+            if event.type == pygame.USEREVENT and event.button == loadgame_button:
+                fade()
+                new_game()
 
             if event.type == pygame.USEREVENT and event.button == quit_button:
                 running = False
                 pygame.quit()
                 sys.exit()
 
-            for btn in [new_game_button, settings_button, quit_button]:
+            for btn in [newgame_button, loadgame_button, quit_button]:
                 btn.handle_event(event)
 
-        for btn in [new_game_button, settings_button, quit_button]:
+        for btn in [newgame_button, loadgame_button, quit_button]:
                 btn.check_hover(pygame.mouse.get_pos())
                 btn.draw(screen)
 
@@ -76,10 +132,11 @@ def main_menu():
 
         pygame.display.flip()
 
+
 def settings_menu():
-    audio_button = ImageButton(WIDTH/20, HEIGHT/8, 274, 116, "", "image/button1920/audio.png", "image/button1920/audio_hover.png")
-    video_button = ImageButton(WIDTH/20,  HEIGHT*3/8, 273, 115, "", "image/button1920/video.png", "image/button1920/video_hover.png")
-    back_set_button = ImageButton(WIDTH/20, HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
+    audio_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT/8, 274, 116, "", "image/button1920/audio.png", "image/button1920/audio_hover.png")
+    video_button = ImageButton(WINDOW_WIDTH/20,  WINDOW_HEIGHT*3/8, 273, 115, "", "image/button1920/video.png", "image/button1920/video_hover.png")
+    back_set_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
 
     button_up.append(audio_button)
     button_med.append(video_button)
@@ -119,9 +176,9 @@ def settings_menu():
         pygame.display.flip()
 
 def video_settings():
-    windowed_button = ImageButton(WIDTH/20, HEIGHT/8, 389, 119, "", "image/button1920/windowed.png", "image/button1920/windowed_hover.png")
-    fullscreen_button = ImageButton(WIDTH/20,  HEIGHT*3/8, 663, 119, "", "image/button1920/fullscreen.png", "image/button1920/fullscreen_hover.png")
-    back_vid_button = ImageButton(WIDTH/20, HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
+    windowed_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT/8, 389, 119, "", "image/button1920/windowed.png", "image/button1920/windowed_hover.png")
+    fullscreen_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*3/8, 663, 119, "", "image/button1920/fullscreen.png", "image/button1920/fullscreen_hover.png")
+    back_vid_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
     
     button_up.append(windowed_button)
     button_med.append(fullscreen_button)
@@ -166,9 +223,9 @@ def video_settings():
         pygame.display.flip()
 
 def general_game():
-    newgame_button = ImageButton(WIDTH/20, HEIGHT/8, 463, 119, "", "image/button1920/newgame.png", "image/button1920/newgame_hover.png")
-    loadgame_button = ImageButton(WIDTH/20, HEIGHT*3/8, 707, 119, "", "image/button1920/loadgame.png", "image/button1920/loadgame_hover.png")
-    back_gg_button = ImageButton(WIDTH/20, HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
+    newgame_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT/8, 463, 119, "", "image/button1920/newgame.png", "image/button1920/newgame_hover.png")
+    loadgame_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*3/8, 707, 119, "", "image/button1920/loadgame.png", "image/button1920/loadgame_hover.png")
+    back_gg_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
 
     button_up.append(newgame_button)
     button_med.append(loadgame_button)
@@ -218,39 +275,6 @@ def new_game():
     game = Game()
     game.run()
     fade()
-    # back_game_button = ImageButton(WIDTH/20, HEIGHT*4/5, 272, 117, "", "image/button1920/back.png", "image/button1920/back_hover.png")
-    # button_low.append(back_game_button)
-
-    # running = True
-    # while running:
-    #     screen.fill((0, 0, 0))
-        
-    #     font = pygame.font.Font(None, 72)
-    #     text_surface = font.render("Добро пожаловать в игру!", True, (255, 255, 255))
-    #     text_rect = text_surface.get_rect(center=(WIDTH/2, HEIGHT/2))
-    #     screen.blit(text_surface, text_rect)
-
-    #     for event in pygame.event.get():
-    #         if event.type == pygame.QUIT:
-    #             running = False
-    #             pygame.quit()
-    #             sys.exit()
-
-        #     if event.type == pygame.USEREVENT and event.button == back_game_button:
-        #         fade()
-        #         running = False
-
-        #     for btn in [back_game_button]:
-        #         btn.handle_event(event)
-
-        # for btn in [back_game_button]:
-        #         btn.check_hover(pygame.mouse.get_pos())
-        #         btn.draw(screen)
-
-        # x, y = pygame.mouse.get_pos()
-        # screen.blit(cursor, (x, y))
-        
-        # pygame.display.flip()
 
 def fade():
     running = True
@@ -261,7 +285,7 @@ def fade():
             if event.type == pygame.QUIT:
                 running = False
 
-        fade_surface = pygame.Surface((WIDTH, HEIGHT))
+        fade_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
         fade_surface.fill((0, 0, 0))
         fade_surface.set_alpha(fade_alpha)
         screen.blit(fade_surface, (0, 0))
@@ -274,21 +298,21 @@ def fade():
         pygame.display.flip()
 
 def change_video_mode(w, h, fullscreen = 0):
-    global WIDTH, HEIGHT, screen, main_background, button_lst
+    global WINDOW_WIDTH, WINDOW_HEIGHT, screen, main_background, button_lst
 
-    WIDTH, HEIGHT = w, h
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), fullscreen)
+    WINDOW_WIDTH, WINDOW_HEIGHT = w, h
+    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), fullscreen)
 
-    main_background = pygame.image.load(f'image/menu{WIDTH}.jpg')
+    main_background = pygame.image.load(f'image/menu{WINDOW_WIDTH}.jpg')
 
     for btn in button_up:
-        btn.set_pos(WIDTH/20, HEIGHT/8)
+        btn.set_pos(WINDOW_WIDTH/20, WINDOW_HEIGHT/8)
 
     for btn in button_med:
-        btn.set_pos(WIDTH/20, HEIGHT*3/8)
+        btn.set_pos(WINDOW_WIDTH/20, WINDOW_HEIGHT*3/8)
 
     for btn in button_low:
-        btn.set_pos(WIDTH/20, HEIGHT*4/5)       
+        btn.set_pos(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5)       
 
 if __name__ == "__main__":
     main_menu()

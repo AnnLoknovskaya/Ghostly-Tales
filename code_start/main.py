@@ -20,7 +20,7 @@ from overworld import Overworld
 class Game:
 	def __init__(self):
 		pygame.init() # Инициализация Pygame
-		self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) # Создание окна игры
+		self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.FULLSCREEN) # Создание окна игры
 		pygame.display.set_caption('Game') # Установка заголовка окна
 		self.clock = pygame.time.Clock() # Создание игрового таймера для контроля FPS
 		self.import_assets()
@@ -144,11 +144,19 @@ class Game:
 					pygame.quit()
 					sys.exit()
 
+				#-------------временный вариант выхода из игры в главное меню-------------------------
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE:
+						self.data.save()  # сохраняем прогресс
+						fade()
+						main_menu()
+
 			# Проверка условий завершения игры
 			if self.check_game_over():
 				fade()  # Можно сделать плавное затухание экрана
 				main_menu()  # Возврат в главное меню
 				break  # Выходим из игрового цикла
+
 
 			# self.check_game_over()
 			self.current_stage.run(dt)
