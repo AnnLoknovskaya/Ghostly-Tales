@@ -1,6 +1,6 @@
 # Импорт необходимых модулей
 import sys
-from mainA import main_menu, fade
+from mainA import main_menu, fade, play_music, stop_music
 import pygame
 
 from settings import *
@@ -41,7 +41,7 @@ class Game:
 		self.tmx_overworld = load_pygame(join('..', 'data', 'overworld', 'overworld.tmx'))
 		self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data, self.switch_stage, self.bg_music) # Создаём объект Level с загруженной картой
 		# self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames)
-		self.bg_music.play(-1)
+		# self.bg_music.play(-1)
 		self.bg_music.set_volume(0.2)
 		self.running = True
 
@@ -144,6 +144,7 @@ class Game:
 	# 		self.running = False
 
 	def run(self):
+		play_music()
 		self.running = True
 		while self.running:
 			dt = self.clock.tick() / 1000
@@ -156,6 +157,7 @@ class Game:
 				#-------------временный вариант выхода из игры в главное меню-------------------------
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
+						stop_music()
 						self.data.save()  # сохраняем прогресс
 						fade()
 						main_menu()

@@ -21,6 +21,17 @@ from cutscenes import *
 
 pygame.init()
 
+pygame.mixer.init()
+bg_music = pygame.mixer.Sound(join('..', 'audio', 'my_roman_empire.mp3'))
+bg_music.set_volume(0.2)
+
+def play_music():
+    if not pygame.mixer.get_busy():
+        bg_music.play(-1)
+
+def stop_music():
+    bg_music.stop()
+
 # HEIGHT/8  HEIGHT*3/8  HEIGHT*7/8
 
 button_up = []
@@ -80,6 +91,8 @@ pygame.mouse.set_visible(False)
 
 #--------------временно------------
 def main_menu():
+    play_music()  # Запускаем музыку при входе в меню
+
     newgame_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT/8, 463, 119, "", "image/button1920/newgame.png", "image/button1920/newgame_hover.png")
     loadgame_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*3/8, 707, 119, "", "image/button1920/loadgame.png", "image/button1920/loadgame_hover.png")
     quit_button = ImageButton(WINDOW_WIDTH/20, WINDOW_HEIGHT*4/5, 292, 129, "", "image/button1920/quit.png", "image/button1920/quit_hover.png")
@@ -95,6 +108,7 @@ def main_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                stop_music()
                 running = False
                 pygame.quit()
                 sys.exit()
