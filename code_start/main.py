@@ -1,6 +1,6 @@
 # Импорт необходимых модулей
 import sys
-from mainA import main_menu, fade
+from mainA import main_menu, fade, play_music, stop_music
 import pygame
 
 from settings import *
@@ -28,6 +28,7 @@ class Game:
 		self.ui = UI(self.font, self.ui_frames)
 		self.data = Data(self.ui)
 		# Загрузка карты уровня из TMX файла
+		#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		self.tmx_maps = {
 			0: load_pygame(join('..', 'data', 'levels', '0.tmx')),
 			1: load_pygame(join('..', 'data', 'levels', '1.tmx')),
@@ -35,13 +36,26 @@ class Game:
 			3: load_pygame(join('..', 'data', 'levels', '3.tmx')),
 			4: load_pygame(join('..', 'data', 'levels', '4.tmx')),
 			5: load_pygame(join('..', 'data', 'levels', '5.tmx')),
+			6: load_pygame(join('..', 'data', 'levels', '6.tmx')),
+			7: load_pygame(join('..', 'data', 'levels', '7.tmx')),
+			8: load_pygame(join('..', 'data', 'levels', '8.tmx')),
+			9: load_pygame(join('..', 'data', 'levels', '9.tmx')),
+			10: load_pygame(join('..', 'data', 'levels', '10.tmx')),
+			11: load_pygame(join('..', 'data', 'levels', '11.tmx')),
+			12: load_pygame(join('..', 'data', 'levels', '12.tmx')),
+			13: load_pygame(join('..', 'data', 'levels', '13.tmx')),
+			14: load_pygame(join('..', 'data', 'levels', '14.tmx')),
+			15: load_pygame(join('..', 'data', 'levels', '15.tmx')),
+			16: load_pygame(join('..', 'data', 'levels', '16.tmx')),
+			17: load_pygame(join('..', 'data', 'levels', '17.tmx')),
+			18: load_pygame(join('..', 'data', 'levels', '18.tmx'))
 		} # Загружаем карту и сохраняем в словарь
 
 		self.bg_music = pygame.mixer.Sound(join('..', 'audio', 'my_roman_empire.mp3'))
 		self.tmx_overworld = load_pygame(join('..', 'data', 'overworld', 'overworld.tmx'))
 		self.current_stage = Level(self.tmx_maps[self.data.current_level], self.level_frames, self.audio_files, self.data, self.switch_stage, self.bg_music) # Создаём объект Level с загруженной картой
 		# self.current_stage = Overworld(self.tmx_overworld, self.data, self.overworld_frames)
-		self.bg_music.play(-1)
+		#self.bg_music.play(-1)
 		self.bg_music.set_volume(0.2)
 		self.running = True
 
@@ -77,7 +91,7 @@ class Game:
 			# <-- Эта проверка только для успешного завершения уровня
 			if unlock > 0:
 				self.data.unlocked_level = max(self.data.unlocked_level, unlock)
-				if unlock == 6:
+				if unlock == 19:
 					self.running = False
 					return
 
@@ -144,6 +158,7 @@ class Game:
 	# 		self.running = False
 
 	def run(self):
+		play_music()
 		self.running = True
 		while self.running:
 			dt = self.clock.tick() / 1000
@@ -156,6 +171,7 @@ class Game:
 				#-------------временный вариант выхода из игры в главное меню-------------------------
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
+						stop_music()
 						self.data.save()  # сохраняем прогресс
 						fade()
 						main_menu()

@@ -241,9 +241,9 @@ class Level:
 
 		# Успех — достигли финишного флага
 		if self.player.hitbox_rect.colliderect(self.level_finish_rect):
-			if self.data.current_level == 5:  # если последний уровень
+			if self.data.current_level == 19:  # если последний уровень
 				self.bg_music.stop()
-				self.switch_stage('overworld', 6)  # завершаем игру
+				self.switch_stage('overworld', 19)  # завершаем игру
 			#-------------------------------------------------------------------------------извените сь это мое
 			elif self.data.current_level == 0:
 				cut2()

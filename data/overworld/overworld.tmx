@@ -1,69 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="42" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="255">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="42" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="303">
  <tileset firstgid="1" source="../tilesets/overworld.tsx"/>
  <tileset firstgid="127" source="../tilesets/map objects.tsx"/>
  <tileset firstgid="134" source="../tilesets/editor_paths.tsx"/>
  <layer id="1" name="main" width="42" height="30">
   <data encoding="csv">
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+19,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+19,19,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,24,0,0,0,0,0,1,2,3,3,3,3,3,3,3,3,3,18,17,17,17,17,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,24,0,0,0,0,0,15,18,18,18,18,18,18,18,18,18,18,18,17,17,17,17,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,24,0,0,0,0,8,16,18,18,18,18,18,18,18,18,18,18,18,17,17,17,17,19,10,76,76,114,76,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,24,0,0,0,8,31,31,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,5,6,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,24,88,88,88,22,31,31,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,102,102,102,22,31,31,18,18,18,18,18,18,18,18,18,18,18,18,31,32,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,116,116,116,22,31,31,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,0,0,0,29,30,31,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,0,0,0,43,44,30,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,0,0,0,57,58,44,30,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,0,0,0,101,101,58,44,30,18,18,18,18,18,18,18,18,18,18,18,18,18,18,17,17,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+19,19,19,20,0,0,0,101,100,100,58,44,30,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+17,17,17,20,0,0,0,0,100,100,100,58,44,45,45,45,45,46,46,46,46,46,46,46,45,46,30,31,20,114,114,0,0,0,0,0,0,0,0,0,0,0,
+46,46,46,34,0,0,0,0,100,100,100,100,58,59,59,59,59,60,59,59,59,59,59,59,59,60,44,45,34,114,114,0,0,0,0,0,0,0,0,0,0,0,
+60,60,60,48,0,0,0,0,0,100,100,100,100,73,73,73,73,74,74,74,74,74,74,74,73,74,58,59,48,114,114,114,0,0,0,0,0,0,0,0,0,0,
+74,74,74,62,0,0,0,0,0,100,100,100,100,100,100,100,100,0,0,0,0,0,0,0,0,0,72,73,62,114,114,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,115,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,17,17,17,17,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,17,17,17,17,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,17,17,17,17,20,0,1,2,5,6,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,18,18,18,18,20,0,15,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,18,18,18,18,20,0,15,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,18,31,32,33,34,0,15,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,1,2,4,77,77,4,78,4,5,6,0,29,45,46,46,47,48,0,15,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,15,18,18,18,18,18,18,18,18,20,0,43,59,60,60,61,62,0,15,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,15,18,18,18,18,18,18,18,18,20,0,57,73,74,74,75,0,0,15,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,15,18,18,18,18,18,18,18,18,20,0,0,0,0,1,2,3,3,92,18,18,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,15,18,18,18,18,18,18,18,18,20,0,0,0,0,15,17,17,17,17,17,19,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,15,18,18,18,18,18,18,18,18,20,0,0,0,0,15,18,18,18,18,18,18,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,29,46,45,30,18,18,32,33,46,34,0,0,0,0,29,45,46,30,31,17,17,20,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,43,59,59,44,45,45,46,47,60,48,0,0,0,0,43,59,60,44,45,45,46,34,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,57,73,73,58,59,60,60,61,74,62,0,0,0,0,57,73,74,58,59,59,60,48,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,72,73,74,74,75,0,0,0,0,0,0,0,0,0,72,73,73,74,62,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,138,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-</data>
- </layer>
- <layer id="2" name="top" width="42" height="30">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,71,71,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,36,37,37,38,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50,51,51,52,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,64,65,65,66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,8,9,4,9,10,0,0,0,0,0,0,0,0,88,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,22,71,17,71,24,0,0,0,0,0,0,0,0,102,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,35,22,71,17,71,24,0,0,0,0,0,0,0,0,116,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,49,36,37,37,37,38,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,50,51,51,51,52,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,63,64,65,65,65,66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,88,88,88,88,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,102,102,102,102,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,116,116,116,116,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,117,118,119,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,5,6,103,104,105,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,18,18,91,3,4,4,6,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,18,18,18,18,18,18,20,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,17,17,17,17,17,17,20,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,45,45,45,45,45,46,34,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,59,60,59,60,59,60,48,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,57,73,74,73,74,73,74,62,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -72,87 +38,282 @@
 </data>
  </layer>
  <objectgroup id="4" name="Nodes">
-  <object id="62" name="Node" x="640" y="768" width="64" height="64">
+  <object id="62" name="Node" x="1152" y="576" width="64" height="64">
    <properties>
-    <property name="down" value="1"/>
-    <property name="stage" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="63" name="Node" x="960" y="896" width="64" height="64">
-   <properties>
+    <property name="down" value="2"/>
     <property name="left" value="1r"/>
-    <property name="right" value="3"/>
+    <property name="right" value="13"/>
     <property name="stage" type="int" value="1"/>
-    <property name="up" value="2"/>
+    <property name="up" value="8"/>
    </properties>
   </object>
-  <object id="64" name="Node" x="1728" y="960" width="64" height="64">
+  <object id="63" name="Node" x="1536" y="768" width="64" height="64">
    <properties>
-    <property name="down" value="4"/>
-    <property name="left" value="3r"/>
-    <property name="right" value="5"/>
-    <property name="stage" type="int" value="3"/>
-   </properties>
-  </object>
-  <object id="65" name="Node" x="1408" y="512" width="64" height="64">
-   <properties>
-    <property name="right" value="5r"/>
-    <property name="stage" type="int" value="5"/>
-   </properties>
-  </object>
-  <object id="66" name="Node" x="1536" y="1280" width="64" height="64">
-   <properties>
-    <property name="right" value="4r"/>
+    <property name="down" value="5"/>
+    <property name="left" value="4r"/>
     <property name="stage" type="int" value="4"/>
    </properties>
   </object>
-  <object id="67" name="Node" x="1024" y="512" width="64" height="64">
+  <object id="64" name="Node" x="1344" y="768" width="64" height="64">
    <properties>
-    <property name="left" value="2r"/>
+    <property name="left" value="3r"/>
+    <property name="right" value="4"/>
+    <property name="stage" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="65" name="Node" x="1152" y="768" width="64" height="64">
+   <properties>
+    <property name="left" value="6r"/>
+    <property name="right" value="3"/>
     <property name="stage" type="int" value="2"/>
+    <property name="up" value="2r"/>
+   </properties>
+  </object>
+  <object id="66" name="Node" x="1472" y="256" width="64" height="64">
+   <properties>
+    <property name="down" value="10r"/>
+    <property name="right" value="11"/>
+    <property name="stage" type="int" value="10"/>
+   </properties>
+  </object>
+  <object id="67" name="Node" x="1536" y="896" width="64" height="64">
+   <properties>
+    <property name="stage" type="int" value="5"/>
+    <property name="up" value="5r"/>
+   </properties>
+  </object>
+  <object id="256" name="Node" x="1536" y="576" width="64" height="64">
+   <properties>
+    <property name="left" value="14r"/>
+    <property name="stage" type="int" value="14"/>
+   </properties>
+  </object>
+  <object id="257" name="Node" x="64" y="192" width="64" height="64">
+   <properties>
+    <property name="down" value="16r"/>
+    <property name="stage" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="258" name="Node" x="64" y="384" width="64" height="64">
+   <properties>
+    <property name="down" value="15r"/>
+    <property name="stage" type="int" value="15"/>
+    <property name="up" value="16"/>
+   </properties>
+  </object>
+  <object id="259" name="Node" x="64" y="576" width="64" height="64">
+   <properties>
+    <property name="down" value="17r"/>
+    <property name="right" value="1"/>
+    <property name="stage" type="int" value="0"/>
+    <property name="up" value="15"/>
+   </properties>
+  </object>
+  <object id="260" name="Node" x="64" y="768" width="64" height="64">
+   <properties>
+    <property name="down" value="18r"/>
+    <property name="stage" type="int" value="17"/>
+    <property name="up" value="17"/>
+   </properties>
+  </object>
+  <object id="261" name="Node" x="64.7879" y="960.144" width="64" height="64">
+   <properties>
+    <property name="stage" type="int" value="18"/>
+    <property name="up" value="18"/>
+   </properties>
+  </object>
+  <object id="262" name="Node" x="1344" y="576" width="64" height="64">
+   <properties>
+    <property name="left" value="13r"/>
+    <property name="right" value="14"/>
+    <property name="stage" type="int" value="13"/>
+   </properties>
+  </object>
+  <object id="263" name="Node" x="960" y="384" width="64" height="64">
+   <properties>
+    <property name="right" value="12r"/>
+    <property name="stage" type="int" value="12"/>
+   </properties>
+  </object>
+  <object id="264" name="Node" x="1600" y="384" width="64" height="64">
+   <properties>
+    <property name="stage" type="int" value="11"/>
+    <property name="up" value="11r"/>
+   </properties>
+  </object>
+  <object id="265" name="Node" x="960" y="768" width="64" height="64">
+   <properties>
+    <property name="left" value="7r"/>
+    <property name="right" value="6"/>
+    <property name="stage" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="266" name="Node" x="1344" y="384" width="64" height="64">
+   <properties>
+    <property name="left" value="9r"/>
+    <property name="right" value="10"/>
+    <property name="stage" type="int" value="9"/>
+   </properties>
+  </object>
+  <object id="267" name="Node" x="768" y="768" width="64" height="64">
+   <properties>
+    <property name="right" value="7"/>
+    <property name="stage" type="int" value="7"/>
+   </properties>
+  </object>
+  <object id="268" name="Node" x="1152" y="384" width="64" height="64">
+   <properties>
+    <property name="down" value="8r"/>
+    <property name="left" value="12"/>
+    <property name="right" value="9"/>
+    <property name="stage" type="int" value="8"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="6" name="Paths">
-  <object id="155" x="1728" y="960">
-   <properties>
-    <property name="end" type="int" value="4"/>
-    <property name="path_id" type="int" value="4"/>
-    <property name="start" type="int" value="3"/>
-   </properties>
-   <polygon points="0,0 0,320 -192,320"/>
-  </object>
-  <object id="159" x="640" y="768">
+  <object id="282" name="1" x="444.667" y="503.333">
    <properties>
     <property name="end" type="int" value="1"/>
     <property name="path_id" type="int" value="1"/>
     <property name="start" type="int" value="0"/>
    </properties>
-   <polygon points="0,0 0,128 320,128"/>
+   <polygon points="-380.667,72.6667 707.333,72.667"/>
   </object>
-  <object id="162" x="960" y="896">
+  <object id="284" name="16" x="88.6667" y="377.333">
    <properties>
-    <property name="end" type="int" value="2"/>
-    <property name="path_id" type="int" value="2"/>
-    <property name="start" type="int" value="1"/>
+    <property name="end" type="int" value="16"/>
+    <property name="path_id" type="int" value="16"/>
+    <property name="start" type="int" value="15"/>
    </properties>
-   <polygon points="0,0 0,-384 64,-384"/>
+   <polygon points="-24.6667,6.66667 -24.6667,-185.333"/>
   </object>
-  <object id="163" x="1728" y="960">
+  <object id="285" name="17" x="89.3333" y="821.333">
+   <properties>
+    <property name="end" type="int" value="17"/>
+    <property name="path_id" type="int" value="17"/>
+    <property name="start" type="int" value="0"/>
+   </properties>
+   <polygon points="-25.3333,-53.3333 -25.3333,-245.333"/>
+  </object>
+  <object id="286" name="boss" x="90" y="946.667">
+   <properties>
+    <property name="end" type="int" value="18"/>
+    <property name="path_id" type="int" value="18"/>
+    <property name="start" type="int" value="17"/>
+   </properties>
+   <polygon points="-26,13.3333 -26,-178.667"/>
+  </object>
+  <object id="289" name="15" x="155" y="471">
+   <properties>
+    <property name="end" type="int" value="15"/>
+    <property name="path_id" type="int" value="15"/>
+    <property name="start" type="int" value="0"/>
+   </properties>
+   <polygon points="-91,105 -91,-87"/>
+  </object>
+  <object id="290" name="7" x="666.667" y="285.333">
+   <properties>
+    <property name="end" type="int" value="7"/>
+    <property name="path_id" type="int" value="7"/>
+    <property name="start" type="int" value="6"/>
+   </properties>
+   <polygon points="101.333,482.667 293.333,482.667"/>
+  </object>
+  <object id="291" name="6" x="957.333" y="421.333">
+   <properties>
+    <property name="end" type="int" value="6"/>
+    <property name="path_id" type="int" value="6"/>
+    <property name="start" type="int" value="2"/>
+   </properties>
+   <polygon points="2.66667,346.667 194.667,346.667"/>
+  </object>
+  <object id="292" name="3" x="1105.33" y="764">
+   <properties>
+    <property name="end" type="int" value="3"/>
+    <property name="path_id" type="int" value="3"/>
+    <property name="start" type="int" value="2"/>
+   </properties>
+   <polygon points="46.6667,4 238.667,4"/>
+  </object>
+  <object id="293" name="4" x="1349.33" y="773.333">
+   <properties>
+    <property name="end" type="int" value="4"/>
+    <property name="path_id" type="int" value="4"/>
+    <property name="start" type="int" value="3"/>
+   </properties>
+   <polygon points="-5.33333,-5.33333 186.667,-5.33333"/>
+  </object>
+  <object id="294" name="5" x="1570.67" y="914.667">
    <properties>
     <property name="end" type="int" value="5"/>
     <property name="path_id" type="int" value="5"/>
     <property name="start" type="int" value="4"/>
    </properties>
-   <polygon points="0,0 128,0 128,-448 -320,-448"/>
+   <polygon points="-34.6667,-146.667 -34.6667,-18.6667"/>
   </object>
-  <object id="165" x="960" y="896">
+  <object id="295" name="2" x="1262.67" y="682.667">
    <properties>
-    <property name="end" type="int" value="3"/>
-    <property name="path_id" type="int" value="3"/>
+    <property name="end" type="int" value="2"/>
+    <property name="path_id" type="int" value="2"/>
     <property name="start" type="int" value="1"/>
    </properties>
-   <polygon points="0,0 704,0 704,64 768,64"/>
+   <polygon points="-110.667,-106.667 -110.667,85.3333"/>
+  </object>
+  <object id="296" name="13" x="1268" y="652">
+   <properties>
+    <property name="end" type="int" value="13"/>
+    <property name="path_id" type="int" value="13"/>
+    <property name="start" type="int" value="1"/>
+   </properties>
+   <polygon points="-116,-76 76,-76"/>
+  </object>
+  <object id="297" name="14" x="1594.67" y="646.667">
+   <properties>
+    <property name="end" type="int" value="14"/>
+    <property name="path_id" type="int" value="14"/>
+    <property name="start" type="int" value="13"/>
+   </properties>
+   <polygon points="-250.667,-70.6667 -58.6667,-70.6667"/>
+  </object>
+  <object id="298" name="12" x="1369.33" y="640">
+   <properties>
+    <property name="end" type="int" value="12"/>
+    <property name="path_id" type="int" value="12"/>
+    <property name="start" type="int" value="8"/>
+   </properties>
+   <polygon points="-217.333,-256 -409.333,-256"/>
+  </object>
+  <object id="299" name="8" x="998.667" y="430.667">
+   <properties>
+    <property name="end" type="int" value="8"/>
+    <property name="path_id" type="int" value="8"/>
+    <property name="start" type="int" value="1"/>
+   </properties>
+   <polygon points="153.333,145.333 153.333,-46.6667"/>
+  </object>
+  <object id="300" name="9" x="1233.33" y="492">
+   <properties>
+    <property name="end" type="int" value="9"/>
+    <property name="path_id" type="int" value="9"/>
+    <property name="start" type="int" value="8"/>
+   </properties>
+   <polygon points="-81.3333,-108 110.667,-108"/>
+  </object>
+  <object id="301" name="10" x="1132" y="381.333">
+   <properties>
+    <property name="end" type="int" value="10"/>
+    <property name="path_id" type="int" value="10"/>
+    <property name="start" type="int" value="9"/>
+   </properties>
+   <polygon points="212,2.66667 340,2.66667 340,-125.333"/>
+  </object>
+  <object id="302" name="11" x="1505.33" y="505.333">
+   <properties>
+    <property name="end" type="int" value="11"/>
+    <property name="path_id" type="int" value="11"/>
+    <property name="start" type="int" value="10"/>
+   </properties>
+   <polygon points="-33.3333,-249.333 94.6667,-249.333 94.6667,-121.333"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="Objects" visible="0">

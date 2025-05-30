@@ -11,7 +11,7 @@ class Data:
 
         self.unlocked_level = 0
         self.current_level = 0
-        self.max_level = 6
+        self.max_level = 18
 
         self.load()  # Загружаем сохранение, если оно есть
 

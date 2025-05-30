@@ -7,6 +7,15 @@ from settings import *
 from sprites import Sprite, AnimatedSprite, Node, Icon, PathSprite
 from groups import WorldSprites
 
+import re
+
+def zaebalo(path_str):
+    match = re.match(r"(\d+)([a-z]?)", path_str)
+    if match:
+        return int(match.group(1))
+    else:
+        raise ValueError(f"Некорректный формат строки пути: {path_str}")
+
 class Overworld:
     def __init__(self, tmx_map, data, overworld_frames, switch_stage):
         self.display_surface = pygame.display.get_surface()
@@ -30,7 +39,7 @@ class Overworld:
 
     def setup(self, tmx_map, overworld_frames):
         # tiles
-        for layer in ['main', 'top']:
+        for layer in ['main']:
             for x, y, surf in tmx_map.get_layer_by_name(layer).tiles():
                 Sprite((x *TILE_SIZE, y *TILE_SIZE), surf, self.all_sprites, Z_LAYERS['bg tiles'])
 
@@ -39,14 +48,13 @@ class Overworld:
             for row in range(tmx_map.height*2):
                 AnimatedSprite((col * TILE_SIZE, row * TILE_SIZE), overworld_frames['water'], self.all_sprites, Z_LAYERS['bg'])
 
-
-        # objects
-        for obj in tmx_map.get_layer_by_name('Objects'):
-            if obj.name == 'palm':
-                AnimatedSprite((obj.x, obj.y), overworld_frames['palms'], self.all_sprites, Z_LAYERS['main'], randint(4, 6))
-            else:
-                z = Z_LAYERS[f'{'bg details' if obj.name == 'grass' else 'bg tiles'}']
-                Sprite((obj.x, obj.y), obj.image, self.all_sprites, z)
+        # # objects
+        # for obj in tmx_map.get_layer_by_name('Objects'):
+        #     if obj.name == 'palm':
+        #         AnimatedSprite((obj.x, obj.y), overworld_frames['palms'], self.all_sprites, Z_LAYERS['main'], randint(4, 6))
+        #     else:
+        #         z = Z_LAYERS[f'{'bg details' if obj.name == 'grass' else 'bg tiles'}']
+        #         Sprite((obj.x, obj.y), obj.image, self.all_sprites, z)
 
         # paths
         self.paths = {}
@@ -55,7 +63,6 @@ class Overworld:
             start = obj.properties['start']
             end = obj.properties['end']
             self.paths[end] = {'pos': pos, 'start': start}
-
 
         # nodes and player
         for obj in tmx_map.get_layer_by_name('Nodes'):
@@ -67,13 +74,21 @@ class Overworld:
             # nodes
             if obj.name == 'Node':
                 available_paths = {k: v for k, v in obj.properties.items() if k in ('left', 'right', 'up', 'down')}
+                
+                # Вывод информации в консоль
+                # print(f"Уровень: {obj.properties['stage']}")
+                # print("Доступные пути:")
+                # for direction, value in available_paths.items():
+                #     print(f"  {direction}: {value}")
+                
                 Node(
                     pos = (obj.x, obj.y),
                     surf = overworld_frames['path']['node'],
                     groups = (self.all_sprites, self.node_sprites),
                     level = obj.properties['stage'],
                     data = self.data,
-                    paths = available_paths)
+                    paths = available_paths
+                )
 
     def create_path_sprites(self):
         nodes = {node.level: vector(node.grid_pos) for node in self.node_sprites}
@@ -149,10 +164,15 @@ class Overworld:
 
 
     def move(self, direction):
-        path_key = int(self.current_node.paths[direction][0])
-        path_reverse = True if self.current_node.paths[direction][-1] == 'r' else False
-        path = self.paths[path_key]['pos'][:] if not path_reverse else self.paths[path_key]['pos'][::-1]
-        self.icon.start_move(path)
+        path_str = self.current_node.paths[direction]
+        path_number = zaebalo(path_str)
+        path_reverse = True if path_str.endswith('r') else False
+        
+        path_coords = self.paths[path_number]['pos']
+        if path_reverse:
+            path_coords = path_coords[::-1]
+        
+        self.icon.start_move(path_coords)
 
     def get_current_node(self):
         nodes = pygame.sprite.spritecollide(self.icon, self.node_sprites, False)
