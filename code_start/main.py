@@ -34,39 +34,39 @@ class Game:
 			# Обучение прыжкам
 			0: load_pygame(join('..', 'data', 'levels', '0.tmx')),
 			# Обучение сбору монет
-			1: load_pygame(join('..', 'data', 'levels', '01.tmx')),
+			1: load_pygame(join('..', 'data', 'levels', '1.tmx')),
 			# Обучение атакам на монстров
-			2: load_pygame(join('..', 'data', 'levels', '02.tmx')),
+			2: load_pygame(join('..', 'data', 'levels', '2.tmx')),
 			# Средний уровень №1
-			3: load_pygame(join('..', 'data', 'levels', '4.tmx')),
+			3: load_pygame(join('..', 'data', 'levels', '3.tmx')),
 			# Средний уровень №2
-			4: load_pygame(join('..', 'data', 'levels', '3.tmx')),
+			4: load_pygame(join('..', 'data', 'levels', '4.tmx')),
 			# Средний уровень №3
 			5: load_pygame(join('..', 'data', 'levels', '5.tmx')),
 			# Средний уровень №4
-			6: load_pygame(join('..', 'data', 'levels', '10.tmx')),
+			6: load_pygame(join('..', 'data', 'levels', '6.tmx')),
 			# Средний уровень №5
 			7: load_pygame(join('..', 'data', 'levels', '7.tmx')),
 			# Средний уровень №6
-			8: load_pygame(join('..', 'data', 'levels', '800.tmx')),
+			8: load_pygame(join('..', 'data', 'levels', '8.tmx')),
 			# Средний уровень №7
-			9: load_pygame(join('..', 'data', 'levels', '900.tmx')),
+			9: load_pygame(join('..', 'data', 'levels', '9.tmx')),
 			# Средний уровень №8
-			10: load_pygame(join('..', 'data', 'levels', '1000.tmx')),
+			10: load_pygame(join('..', 'data', 'levels', '10.tmx')),
 			# Средний уровень №9
-			11: load_pygame(join('..', 'data', 'levels', '1100.tmx')),
+			11: load_pygame(join('..', 'data', 'levels', '11.tmx')),
 			# Средний уровень №10
-			12: load_pygame(join('..', 'data', 'levels', '1200.tmx')),
+			12: load_pygame(join('..', 'data', 'levels', '12.tmx')),
 			# Средний уровень №11
-			13: load_pygame(join('..', 'data', 'levels', '1300.tmx')),
+			13: load_pygame(join('..', 'data', 'levels', '13.tmx')),
 			# Средний уровень №12
-			14: load_pygame(join('..', 'data', 'levels', '1400.tmx')),
+			14: load_pygame(join('..', 'data', 'levels', '14.tmx')),
 			# Сложный уровень №1
-			15: load_pygame(join('..', 'data', 'levels', '1500.tmx')),
+			15: load_pygame(join('..', 'data', 'levels', '15.tmx')),
 			# Сложный уровень №2
-			16: load_pygame(join('..', 'data', 'levels', '1600.tmx')),
+			16: load_pygame(join('..', 'data', 'levels', '16.tmx')),
 			# Сложный уровень №3
-			17: load_pygame(join('..', 'data', 'levels', '1700.tmx')),
+			17: load_pygame(join('..', 'data', 'levels', '17.tmx')),
 			# Финальный уровень
 			18: load_pygame(join('..', 'data', 'levels', '18.tmx'))
 		} # Загружаем карту и сохраняем в словарь
