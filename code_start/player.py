@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.z = Z_LAYERS['main']
         self.data = data
+        self.invincibility_timer = Timer(1000)  # 5 секунд неуязвимости
 
         # Создание изображения игрока
         self.frames, self.frame_index = frames, 0
@@ -42,7 +43,7 @@ class Player(pygame.sprite.Sprite):
             'wall slide block': Timer(500),
             'platform skip': Timer(50),
             'attack block': Timer(500),
-            'hit': Timer(400)
+            'hit': Timer(1000)
         }
 
         self.attack_sound = attack_sound
@@ -71,6 +72,12 @@ class Player(pygame.sprite.Sprite):
 
             if keys[pygame.K_x]:
                 self.attack()
+                if hasattr(self, 'boss') and self.boss:
+                    distance = vector(self.rect.center).distance_to(self.boss.rect.center)
+                    if distance <= 100 and self.boss.state != 'hurt' and not self.timers['attack block'].active:
+                        self.boss.take_damage()
+                        self.boss.state = 'hurt'
+                        self.boss.hurt_timer.activate()
 
             # Нормализуем горизонтальное направление для плавности движения
             self.direction.x = input_vector.normalize().x if input_vector else input_vector.x

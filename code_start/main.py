@@ -25,29 +25,49 @@ class Game:
 		self.clock = pygame.time.Clock() # Создание игрового таймера для контроля FPS
 		self.import_assets()
 
+
 		self.ui = UI(self.font, self.ui_frames)
 		self.data = Data(self.ui)
 		# Загрузка карты уровня из TMX файла
 		#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		self.tmx_maps = {
+			# Обучение прыжкам
 			0: load_pygame(join('..', 'data', 'levels', '0.tmx')),
-			1: load_pygame(join('..', 'data', 'levels', '1.tmx')),
-			2: load_pygame(join('..', 'data', 'levels', '2.tmx')),
-			3: load_pygame(join('..', 'data', 'levels', '3.tmx')),
-			4: load_pygame(join('..', 'data', 'levels', '4.tmx')),
+			# Обучение сбору монет
+			1: load_pygame(join('..', 'data', 'levels', '01.tmx')),
+			# Обучение атакам на монстров
+			2: load_pygame(join('..', 'data', 'levels', '02.tmx')),
+			# Средний уровень №1
+			3: load_pygame(join('..', 'data', 'levels', '4.tmx')),
+			# Средний уровень №2
+			4: load_pygame(join('..', 'data', 'levels', '3.tmx')),
+			# Средний уровень №3
 			5: load_pygame(join('..', 'data', 'levels', '5.tmx')),
-			6: load_pygame(join('..', 'data', 'levels', '6.tmx')),
+			# Средний уровень №4
+			6: load_pygame(join('..', 'data', 'levels', '10.tmx')),
+			# Средний уровень №5
 			7: load_pygame(join('..', 'data', 'levels', '7.tmx')),
-			8: load_pygame(join('..', 'data', 'levels', '8.tmx')),
-			9: load_pygame(join('..', 'data', 'levels', '9.tmx')),
-			10: load_pygame(join('..', 'data', 'levels', '10.tmx')),
-			11: load_pygame(join('..', 'data', 'levels', '11.tmx')),
-			12: load_pygame(join('..', 'data', 'levels', '12.tmx')),
-			13: load_pygame(join('..', 'data', 'levels', '13.tmx')),
-			14: load_pygame(join('..', 'data', 'levels', '14.tmx')),
-			15: load_pygame(join('..', 'data', 'levels', '15.tmx')),
-			16: load_pygame(join('..', 'data', 'levels', '16.tmx')),
-			17: load_pygame(join('..', 'data', 'levels', '17.tmx')),
+			# Средний уровень №6
+			8: load_pygame(join('..', 'data', 'levels', '800.tmx')),
+			# Средний уровень №7
+			9: load_pygame(join('..', 'data', 'levels', '900.tmx')),
+			# Средний уровень №8
+			10: load_pygame(join('..', 'data', 'levels', '1000.tmx')),
+			# Средний уровень №9
+			11: load_pygame(join('..', 'data', 'levels', '1100.tmx')),
+			# Средний уровень №10
+			12: load_pygame(join('..', 'data', 'levels', '1200.tmx')),
+			# Средний уровень №11
+			13: load_pygame(join('..', 'data', 'levels', '1300.tmx')),
+			# Средний уровень №12
+			14: load_pygame(join('..', 'data', 'levels', '1400.tmx')),
+			# Сложный уровень №1
+			15: load_pygame(join('..', 'data', 'levels', '1500.tmx')),
+			# Сложный уровень №2
+			16: load_pygame(join('..', 'data', 'levels', '1600.tmx')),
+			# Сложный уровень №3
+			17: load_pygame(join('..', 'data', 'levels', '1700.tmx')),
+			# Финальный уровень
 			18: load_pygame(join('..', 'data', 'levels', '18.tmx'))
 		} # Загружаем карту и сохраняем в словарь
 
@@ -65,7 +85,7 @@ class Game:
 			self.running = False
 			return True
 
-		elif self.data.current_level == 6:
+		elif self.data.current_level == 19:
 			self.data.coins = 0
 			self.data.health = 5
 			self.data.unlocked_level = 0
@@ -79,6 +99,7 @@ class Game:
 
 	def switch_stage(self, target, unlock=0):
 		if target == 'level':
+
 			self.current_stage = Level(
 				self.tmx_maps[self.data.current_level],
 				self.level_frames,
@@ -129,7 +150,8 @@ class Game:
 			'helicopter': import_folder('..', 'graphics', 'level', 'helicopter'),
 			'saw_chain': import_image('..', 'graphics', 'enemies', 'saw', 'saw_chain'),
 			'spike': import_image('..', 'graphics', 'enemies', 'spike_ball', 'Spiked Ball'),
-			'spike_chain': import_image('..', 'graphics', 'enemies', 'spike_ball', 'spiked_chain')
+			'spike_chain': import_image('..', 'graphics', 'enemies', 'spike_ball', 'spiked_chain'),
+			'boss': import_sub_folders('..', 'graphics', 'enemies', 'boss')
 		}
 
 		self.font = pygame.font.Font(join('..', 'graphics', 'ui', 'runescape_uf.ttf'), 40)

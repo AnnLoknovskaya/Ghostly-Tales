@@ -32,7 +32,12 @@ class Overworld:
 
         self.setup(tmx_map, overworld_frames)
 
-        self.current_node = [node for node in self.node_sprites if node.level == 0][0]
+        # Выбираем текущую ноду по текущему уровню
+        nodes_with_level = [node for node in self.node_sprites if node.level == self.data.current_level]
+        if nodes_with_level:
+            self.current_node = nodes_with_level[0]
+        else:
+            self.current_node = [node for node in self.node_sprites if node.level == 0][0]
 
         self.path_frames = overworld_frames['path']
         self.create_path_sprites()
@@ -48,13 +53,13 @@ class Overworld:
             for row in range(tmx_map.height*2):
                 AnimatedSprite((col * TILE_SIZE, row * TILE_SIZE), overworld_frames['water'], self.all_sprites, Z_LAYERS['bg'])
 
-        # # objects
-        # for obj in tmx_map.get_layer_by_name('Objects'):
-        #     if obj.name == 'palm':
-        #         AnimatedSprite((obj.x, obj.y), overworld_frames['palms'], self.all_sprites, Z_LAYERS['main'], randint(4, 6))
-        #     else:
-        #         z = Z_LAYERS[f'{'bg details' if obj.name == 'grass' else 'bg tiles'}']
-        #         Sprite((obj.x, obj.y), obj.image, self.all_sprites, z)
+        # objects
+        for obj in tmx_map.get_layer_by_name('Objects'):
+            if obj.name == 'palm':
+                AnimatedSprite((obj.x, obj.y), overworld_frames['palms'], self.all_sprites, Z_LAYERS['main'], randint(4, 6))
+            else:
+                z = Z_LAYERS[f'{'bg details' if obj.name == 'grass' else 'bg tiles'}']
+                Sprite((obj.x, obj.y), obj.image, self.all_sprites, z)
 
         # paths
         self.paths = {}
@@ -73,21 +78,27 @@ class Overworld:
 
             # nodes
             if obj.name == 'Node':
-                available_paths = {k: v for k, v in obj.properties.items() if k in ('left', 'right', 'up', 'down')}
-                
+                available_paths = {}
+                for direction in ('left', 'right', 'up', 'down'):
+                    if direction in obj.properties:
+                        path_str = obj.properties[direction]
+                        path_num = zaebalo(path_str)  # Парсит число из строки (например, '3r' -> 3)
+                        if path_num <= self.data.unlocked_level:
+                            available_paths[direction] = path_str
+
                 # Вывод информации в консоль
                 # print(f"Уровень: {obj.properties['stage']}")
                 # print("Доступные пути:")
                 # for direction, value in available_paths.items():
                 #     print(f"  {direction}: {value}")
-                
+
                 Node(
-                    pos = (obj.x, obj.y),
-                    surf = overworld_frames['path']['node'],
-                    groups = (self.all_sprites, self.node_sprites),
-                    level = obj.properties['stage'],
-                    data = self.data,
-                    paths = available_paths
+                    pos=(obj.x, obj.y),
+                    surf=overworld_frames['path']['node'],
+                    groups=(self.all_sprites, self.node_sprites),
+                    level=obj.properties['stage'],
+                    data=self.data,
+                    paths=available_paths
                 )
 
     def create_path_sprites(self):

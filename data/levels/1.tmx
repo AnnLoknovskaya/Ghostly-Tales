@@ -8,6 +8,9 @@
  <tileset firstgid="244" source="../tilesets/platforms.tsx"/>
  <tileset firstgid="252" source="../tilesets/enemies.tsx"/>
  <tileset firstgid="252" source="../tilesets/grass.tsx"/>
+ <tileset firstgid="257" name="boss" tilewidth="62" tileheight="64" tilecount="1" columns="1">
+  <image source="../../../../aaa/Ghostly-Tales/graphics/enemies/boss/idle/0.png" width="62" height="64"/>
+ </tileset>
  <layer id="9" name="BG" width="40" height="15">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

@@ -6,7 +6,7 @@ from settings import *
 from timer import Timer
 
 class Tooth(pygame.sprite.Sprite):
-    def __init__(self, pos, frames, groups, collision_sprites):
+    def __init__(self, pos, frames, groups, collision_sprites, health=3):
         super().__init__(groups)
         self.frames, self.frame_index = frames, 0
         self.image = self.frames[self.frame_index]
@@ -17,6 +17,7 @@ class Tooth(pygame.sprite.Sprite):
         self.direction = choice((-1, 1))
         self.collision_rects = [sprite.rect for sprite in collision_sprites]
         self.speed = 500
+        self.health = health
 
         self.hit_timer = Timer(250)
 
@@ -24,6 +25,15 @@ class Tooth(pygame.sprite.Sprite):
         if not self.hit_timer.active:
             self.direction *= -1
             self.hit_timer.activate()
+
+    def take_damage(self, amount=1):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        # Можно добавить анимацию смерти, звук и т.п.
+        self.kill()
 
     def update(self, dt):
         self.hit_timer.update()
@@ -38,17 +48,21 @@ class Tooth(pygame.sprite.Sprite):
 
         # Смена направления
         ######
-        floor_rect_right = pygame.Rect(self.rect.bottomright, (1, 1))
-        floor_rect_left = pygame.Rect(self.rect.bottomleft, (-1, 1))
-        wall_rect = pygame.Rect(self.rect.topleft + vector(-1, 0), (self.rect.width + 2, 1))
+        # Проверка, есть ли пол под ногами
+        floor_rect_right = pygame.Rect(self.rect.bottomright, (2, 2))
+        floor_rect_left = pygame.Rect((self.rect.bottomleft[0] - 2, self.rect.bottomleft[1]), (2, 2))
 
-        if floor_rect_right.collidelist(self.collision_rects) < 0 and self.direction > 0 or\
-                floor_rect_left.collidelist(self.collision_rects) < 0 and self.direction < 0 or \
-                wall_rect.collidelist(self.collision_rects) != -1:
-            self.direction *= -1
+        # Проверка на столкновение со стенами
+        wall_rect = pygame.Rect(self.rect.topleft + vector(-1, 0), (self.rect.width + 2, self.rect.height))
+
+        # Если нет пола или упёрся в стену — меняем направление
+        if (floor_rect_right.collidelist(self.collision_rects) < 0 and self.direction > 0) or \
+                (floor_rect_left.collidelist(self.collision_rects) < 0 and self.direction < 0) or \
+                (wall_rect.collidelist(self.collision_rects) != -1):
+            self.reverse()
 
 class Shell(pygame.sprite.Sprite):
-    def __init__(self, pos, frames, groups, reverse, player, create_pearl):
+    def __init__(self, pos, frames, groups, reverse, player, create_pearl, health=3):
         super().__init__(groups)
 
         if reverse:
@@ -68,6 +82,7 @@ class Shell(pygame.sprite.Sprite):
         self.old_rect = self.rect.copy()
         self.z = Z_LAYERS['main']
         self.player = player
+        self.health = health
         self.shoot_timer = Timer(3000)
         self.has_fired = False
         self.create_pearl = create_pearl
@@ -82,6 +97,15 @@ class Shell(pygame.sprite.Sprite):
             self.state = 'fire'
             self.frame_index = 0
             self.shoot_timer.activate()
+
+    def take_damage(self, amount=1):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        # Можно добавить анимацию смерти, звук и т.п.
+        self.kill()
 
     def update(self, dt):
         self.shoot_timer.update()
@@ -129,3 +153,119 @@ class Pearl(pygame.sprite.Sprite):
         self.rect.x += self.direction * self.speed * dt * 3
         if not self.timers['lifetime'].active:
             self.kill()
+
+
+class Boss(pygame.sprite.Sprite):
+    def __init__(self, pos, frames, groups, player, health=20, z=Z_LAYERS['main']):
+        super().__init__(groups)
+        self.hurt_timer = Timer(400)
+        self.frame_index = 0
+        self.frames = frames
+        self.state = 'idle'
+        self.image = self.frames[self.state][self.frame_index]
+        self.rect = self.image.get_rect(topleft=pos)
+        self.z = z
+
+        self.player = player
+        self.health = health
+        self.direction = pygame.math.Vector2(-1, 0)  # направление движения босса
+        self.speed = 5
+
+        # Таймеры для атак и анимации
+        self.attack_timer = Timer(2000)  # 2 секунды между атаками
+        self.attack_timer.activate()
+
+        self.animation_timer = 0
+        self.animation_speed = 0.15
+
+        # Флаг, чтобы контролировать момент выстрела или атаки
+        self.has_attacked = False
+
+    def attack(self):
+        # Проверяем, можем ли атаковать
+        if self.state == 'attack':
+            # На определённом кадре анимации можно нанести урон игроку
+            if int(self.frame_index) == 4 and not self.has_attacked:
+                if hasattr(self.player, 'take_damage'):
+                    self.player.take_damage()
+                self.has_attacked = True
+
+    def take_damage(self, amount=1):
+        # Наносим урон только если босс не "в ранах" (нет иммунитета)
+        if not self.hurt_timer.active:
+            self.health -= amount
+            if self.health > 0:
+                self.state = 'hurt'
+                self.frame_index = 0
+                self.hurt_timer.activate()  # активируем таймер для временной неуязвимости
+            else:
+                self.die()
+
+    def die(self):
+        # Можно добавить анимацию смерти, звук и т.п.
+        self.kill()
+
+    def animate(self, dt):
+        self.animation_timer += dt
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0
+            self.frame_index += 1
+
+            frames_count = len(self.frames[self.state])
+            if self.frame_index >= frames_count:
+                self.frame_index = 0
+                # После атаки возвращаемся в idle
+                if self.state == 'attack':
+                    self.state = 'idle'
+                    self.has_attacked = False
+
+            self.image = self.frames[self.state][self.frame_index]
+
+    def state_management(self):
+        # Пока босс в состоянии hurt — не атакует
+        if self.state == 'hurt':
+            return
+
+        if not self.attack_timer.active and self.state != 'attack':
+            self.state = 'attack'
+            self.frame_index = 0
+            self.has_attacked = False
+            self.attack_timer.activate()
+
+    def move(self, dt, collision_sprites):
+        self.rect.x += self.direction.x * self.speed * dt * 60
+
+        floor_rect_right = pygame.Rect(self.rect.bottomright, (2, 2))
+        floor_rect_left = pygame.Rect((self.rect.bottomleft[0] - 2, self.rect.bottomleft[1]), (2, 2))
+
+        collision_rects = [sprite.rect for sprite in collision_sprites]
+
+        # Создаем wall_rect в зависимости от направления движения
+        if self.direction.x > 0:
+            wall_rect = pygame.Rect(self.rect.right + 1, self.rect.top, 2, self.rect.height)
+        else:
+            wall_rect = pygame.Rect(self.rect.left - 3, self.rect.top, 2, self.rect.height)
+
+        no_floor_right = floor_rect_right.collidelist(collision_rects) == -1 and self.direction.x > 0
+        no_floor_left = floor_rect_left.collidelist(collision_rects) == -1 and self.direction.x < 0
+        hit_wall = wall_rect.collidelist(collision_rects) != -1
+
+        if no_floor_right or no_floor_left or hit_wall:
+            self.direction.x *= -1
+
+    def update(self, dt, collision_sprites):
+        self.attack_timer.update()
+        self.hurt_timer.update()
+
+        if not self.hurt_timer.active and self.state == 'hurt':
+            self.state = 'idle'
+            self.frame_index = 0
+
+        self.state_management()
+        self.attack()
+        self.animate(dt)
+
+        # 👣 Добавляем движение
+        if self.state not in ['hurt', 'attack']:
+            self.move(dt, collision_sprites)
+
