@@ -6,9 +6,9 @@ from settings import *
 from sprites import Sprite, MovingSprite, AnimatedSprite, Item, ParticleEffectSprite, Spike
 from player import Player
 from groups import AllSprites
-from enemies import Tooth, Shell, Pearl, Boss
-
-from cutscenes import cut2
+from enemies import Tooth, Shell, Pearl
+#from mainA import fade
+from cutscenes import *
 
 # Создание уровня
 class Level:
@@ -18,7 +18,6 @@ class Level:
 		self.data = data
 		self.switch_stage = switch_stage
 		self.bg_music = bg_music
-		self.boss = None
 
 		# Данные уровня
 		self.level_width = tmx_map.width * TILE_SIZE
@@ -174,15 +173,6 @@ class Level:
 					reverse=obj.properties['reverse'],
 					player=self.player,
 					create_pearl=self.create_pearl)
-			elif obj.name == 'boss':
-				self.boss = Boss(
-					pos=(obj.x, obj.y),
-					frames=level_frames['boss'],
-					groups=(self.all_sprites, self.damage_sprites),
-					player=self.player,
-					health=obj.properties.get('health', 20))
-
-				self.player.boss = self.boss  # ПОМОГИТЕ
 
 		# items
 		for obj in tmx_map.get_layer_by_name('Items'):
@@ -230,30 +220,12 @@ class Level:
 				ParticleEffectSprite((item_sprites[0].rect.center), self.particle_frames, self.all_sprites)
 				self.coin_sound.play()
 
-	#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	def attack_collision(self):
-		# Проверяем все объекты класса Shell
-		for target in self.tooth_sprites.sprites() + [s for s in self.collision_sprites if isinstance(s, Shell)]:
-			facing_target = (self.player.rect.centerx < target.rect.centerx and self.player.facing_right) or \
-							(self.player.rect.centerx > target.rect.centerx and not self.player.facing_right)
+		for target in self.pearl_sprites.sprites() + self.tooth_sprites.sprites():
+			facing_target = self.player.rect.centerx < target.rect.centerx and self.player.facing_right or \
+				self.player.rect.centerx > target.rect.centerx and self.player.facing_right
 			if target.rect.colliderect(self.player.rect) and self.player.attacking and facing_target:
-				target.take_damage(1)
-
-		# Проверяем босса отдельно, если он существует
-		if self.boss:
-			facing_boss = (self.player.rect.centerx < self.boss.rect.centerx and self.player.facing_right) or \
-						  (self.player.rect.centerx > self.boss.rect.centerx and not self.player.facing_right)
-
-			# ✅ Проверка: босс не в состоянии "hurt"
-			if (
-					self.boss.rect.colliderect(self.player.rect) and
-					self.player.attacking and
-					facing_boss and
-					self.boss.state != 'hurt'  # 💥 не атаковать, если уже ранен
-			):
-				self.boss.take_damage(1)
-				self.boss.state = 'hurt'
-				self.boss.hurt_timer.activate()  # ⏱️ запускаем таймер неуязвимости
+				target.reverse()
 
 	def check_constraint(self):
 		# Влево и вправо
@@ -274,7 +246,12 @@ class Level:
 				self.switch_stage('overworld', 19)  # завершаем игру
 			#-------------------------------------------------------------------------------извените сь это мое
 			elif self.data.current_level == 0:
+				#fade()
+				cut1_5()
+				#fade()
 				cut2()
+				#fade()
+				cut2_5()
 				self.switch_stage('overworld', self.level_unlock)
 			else:
 				self.switch_stage('overworld', self.level_unlock)
@@ -285,11 +262,7 @@ class Level:
 		self.display_surface.fill('black')
 
 		# Обновляем все спрайты с учетом времени dt (используется для плавности движения)
-		for sprite in self.all_sprites:
-			if isinstance(sprite, Boss):
-				sprite.update(dt, self.collision_sprites)
-			else:
-				sprite.update(dt)
+		self.all_sprites.update(dt)
 		self.pearl_collision()
 		self.hit_collision()
 		self.item_collision()

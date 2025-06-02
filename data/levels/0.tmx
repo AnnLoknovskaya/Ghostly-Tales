@@ -153,7 +153,7 @@
     <property name="bottom_limit" type="int" value="400"/>
     <property name="death_border_bottom" type="int" value="0"/>
     <property name="horizon_line" type="int" value="900"/>
-    <property name="level_unlock" type="int" value="1"/>
+    <property name="level_unlock" type="int" value="18"/>
     <property name="top_limit" type="int" value="200"/>
    </properties>
   </object>
