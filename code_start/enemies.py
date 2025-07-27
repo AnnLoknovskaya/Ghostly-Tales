@@ -160,7 +160,16 @@ class Boss(pygame.sprite.Sprite):
         super().__init__(groups)
         self.hurt_timer = Timer(400)
         self.frame_index = 0
-        self.frames = frames
+
+        # Масштабируем кадры анимаций
+        scale_factor = 9  # увеличиваем размер до 9 * TILE_SIZE
+        self.frames = {}
+        for key in frames:
+            self.frames[key] = [
+                pygame.transform.scale(surf, (TILE_SIZE * scale_factor, TILE_SIZE * scale_factor))
+                for surf in frames[key]
+            ]
+
         self.state = 'idle'
         self.image = self.frames[self.state][self.frame_index]
         self.rect = self.image.get_rect(topleft=pos)
@@ -168,41 +177,35 @@ class Boss(pygame.sprite.Sprite):
 
         self.player = player
         self.health = health
-        self.direction = pygame.math.Vector2(-1, 0)  # направление движения босса
+        self.direction = pygame.math.Vector2(-1, 0)
         self.speed = 5
 
-        # Таймеры для атак и анимации
-        self.attack_timer = Timer(2000)  # 2 секунды между атаками
+        self.attack_timer = Timer(2000)
         self.attack_timer.activate()
 
         self.animation_timer = 0
         self.animation_speed = 0.15
 
-        # Флаг, чтобы контролировать момент выстрела или атаки
         self.has_attacked = False
 
     def attack(self):
-        # Проверяем, можем ли атаковать
         if self.state == 'attack':
-            # На определённом кадре анимации можно нанести урон игроку
             if int(self.frame_index) == 4 and not self.has_attacked:
                 if hasattr(self.player, 'take_damage'):
                     self.player.take_damage()
                 self.has_attacked = True
 
     def take_damage(self, amount=1):
-        # Наносим урон только если босс не "в ранах" (нет иммунитета)
         if not self.hurt_timer.active:
             self.health -= amount
             if self.health > 0:
                 self.state = 'hurt'
                 self.frame_index = 0
-                self.hurt_timer.activate()  # активируем таймер для временной неуязвимости
+                self.hurt_timer.activate()
             else:
                 self.die()
 
     def die(self):
-        # Можно добавить анимацию смерти, звук и т.п.
         self.kill()
 
     def animate(self, dt):
@@ -214,7 +217,6 @@ class Boss(pygame.sprite.Sprite):
             frames_count = len(self.frames[self.state])
             if self.frame_index >= frames_count:
                 self.frame_index = 0
-                # После атаки возвращаемся в idle
                 if self.state == 'attack':
                     self.state = 'idle'
                     self.has_attacked = False
@@ -222,7 +224,6 @@ class Boss(pygame.sprite.Sprite):
             self.image = self.frames[self.state][self.frame_index]
 
     def state_management(self):
-        # Пока босс в состоянии hurt — не атакует
         if self.state == 'hurt':
             return
 
@@ -240,7 +241,6 @@ class Boss(pygame.sprite.Sprite):
 
         collision_rects = [sprite.rect for sprite in collision_sprites]
 
-        # Создаем wall_rect в зависимости от направления движения
         if self.direction.x > 0:
             wall_rect = pygame.Rect(self.rect.right + 1, self.rect.top, 2, self.rect.height)
         else:
@@ -265,7 +265,7 @@ class Boss(pygame.sprite.Sprite):
         self.attack()
         self.animate(dt)
 
-        # 👣 Добавляем движение
         if self.state not in ['hurt', 'attack']:
             self.move(dt, collision_sprites)
+
 

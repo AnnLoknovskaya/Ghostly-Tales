@@ -1,5 +1,7 @@
 # Импорт необходимых модулей
 import sys
+
+from code_start.final_credits import final_credits
 from mainA import main_menu, fade, play_music, stop_music
 import pygame
 
@@ -114,6 +116,9 @@ class Game:
 				self.data.unlocked_level = max(self.data.unlocked_level, unlock)
 				if unlock == 19:
 					self.running = False
+					self.data.save()
+					self.bg_music.stop()
+					final_credits()
 					return
 
 			# Возвращаем в overworld на текущем уровне (даже если он не был пройден)
